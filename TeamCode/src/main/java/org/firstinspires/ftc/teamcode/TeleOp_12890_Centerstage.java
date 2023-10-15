@@ -72,6 +72,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private DcMotor hangingMotor = null;
 
     @Override
     public void runOpMode() {
@@ -82,6 +83,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -97,6 +99,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        hangingMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -113,6 +116,8 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
+            boolean retractHangingMotor = gamepad2.a;
+            boolean extendHangingMotor = gamepad2.y;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -120,6 +125,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower   = axial - lateral + yaw;
             double rightBackPower  = axial + lateral - yaw;
+            //double hangingMotorPower = 1;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -132,6 +138,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
                 rightFrontPower /= max;
                 leftBackPower   /= max;
                 rightBackPower  /= max;
+                //hangingMotorPower /= max;
             }
 
             // This is test code:
@@ -149,18 +156,24 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
             rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
+
             */
 
+            double hangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
+            hangingMotorPower = retractHangingMotor ? -1.0 : 0.0;  // A gamepad
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+            hangingMotor.setPower(hangingMotorPower);
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Hanging Motor","%4.2f", hangingMotorPower);
             telemetry.update();
         }
     }}
