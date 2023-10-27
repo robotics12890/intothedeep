@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Auton_A4_12890_Centerstage", group="Linear OpMode")
+@Autonomous(name = "Auton_A4_12890_Centerstage", group = "Linear OpMode")
 public class Auton_A4_Centerstage extends LinearOpMode {
 
 
@@ -17,9 +17,9 @@ public class Auton_A4_Centerstage extends LinearOpMode {
 
     public void runOpMode() {
 
-    //  this is a test of a file change
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
+        //  this is a test of a file change
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
 
@@ -38,8 +38,11 @@ public class Auton_A4_Centerstage extends LinearOpMode {
         while (opModeIsActive()) {
             double max;
 
-            leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-            leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
-            rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
-            rightBackPower  = gamepad1.b ? 1.0 : 0.0;
+            double leftFrontPower = gamepad1.x ? 1.0 : 0.0;  // X gamepad
+            double leftBackPower = gamepad1.a ? 1.0 : 0.0;  // A gamepad
+            double rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
+            double rightBackPower = gamepad1.b ? 1.0 : 0.0;
 
+        }
+    }
+}

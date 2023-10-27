@@ -159,21 +159,23 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 
             */
 
-            double hangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
-            hangingMotorPower = retractHangingMotor ? -1.0 : 0.0;  // A gamepad
+            double extendHangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
+            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;  // A gamepad
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
-            hangingMotor.setPower(hangingMotorPower);
+            hangingMotor.setPower(extendHangingMotorPower);
+            hangingMotor.setPower(retractHangingMotorPower);
 
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.addData("Hanging Motor","%4.2f", hangingMotorPower);
+            telemetry.addData("Extend Hanging Motor","%4.2f", extendHangingMotorPower);
+            telemetry.addData("Retract Hanging Motor","%4.2f", retractHangingMotorPower);
             telemetry.update();
         }
     }}
