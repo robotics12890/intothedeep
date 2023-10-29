@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -61,7 +60,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Robot: Auto Drive By Encoder", group = "Robot")
+@Autonomous(name = "Robot: Auto Drive By Encoder v20", group = "Robot")
 
 public class Auton_12890_Centerstage extends LinearOpMode {
 
@@ -96,20 +95,20 @@ public class Auton_12890_Centerstage extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
@@ -124,25 +123,41 @@ public class Auton_12890_Centerstage extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(1, -24, 24, 24,-24);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(1, 12, -12, 4.0, 12 );  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(1, -24, -24, 4.0, );  // S3: Reverse 24 Inches with 4 Sec timeout
+//        encoderDrive(1, -24, 24, 24,-24);  // S1: Forward 47 Inches with 5 Sec timeout
+//        encoderDrive(1, 12, -12, 4.0, 12 );  // S2: Turn Right 12 Inches with 4 Sec timeout
+//        encoderDrive(1, -24, -24, 4.0, );  // S3: Reverse 24 Inches with 4 Sec timeout
+
+
+        //algorithm
+        driveBackward(30.5, 0.5);
+        strafeLeft(30.5, 0.5);
+        driveForward(30.5, 0.5);
+        strafeRight(30.5, 0.5);
+//        driveBackward(30.5, 0.5);
+//        strafeLeft(30.5, 0.5);
+//        driveForward(30.5, 0.5);
+//        strafeRight(30.5, 0.5);
+//        driveBackward(30.5, 0.5);
+//        strafeLeft(30.5, 0.5);
+//        driveForward(30.5, 0.5);
+//        strafeRight(30.5, 0.5);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
-    // move forward / backward function
-    public void drive(double distanceCm,double power){
-        int frontLeftTargetPosition = leftFrontDrive.getCurrentPosition() - (int)(distanceCm*COUNTS_PER_CENTIMETERS);
-        int backLeftTargetPosition = leftBackDrive.getCurrentPosition() - (int)(distanceCm*COUNTS_PER_CENTIMETERS);
-        int frontRightTargetPosition = rightFrontDrive.getCurrentPosition() - (int)(distanceCm*COUNTS_PER_CENTIMETERS);
-        int backRightTargetPosition = rightBackDrive.getCurrentPosition() - (int)(distanceCm*COUNTS_PER_CENTIMETERS);
 
-        leftFrontDrive.setTargetPosition(frontLeftTargetPosition);
-        leftBackDrive.setTargetPosition(backLeftTargetPosition);
-        rightFrontDrive.setTargetPosition(frontRightTargetPosition);
-        rightBackDrive.setTargetPosition(backRightTargetPosition);
+    // move forward / backward function
+    public void drive(double distanceCm, double power) {
+        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+
+        leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
+        leftBackDrive.setTargetPosition(leftBackTargetPosition);
+        rightFrontDrive.setTargetPosition(rightFrontTargetPosition);
+        rightBackDrive.setTargetPosition(rightBackTargetPosition);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -154,24 +169,74 @@ public class Auton_12890_Centerstage extends LinearOpMode {
         rightFrontDrive.setPower(Math.abs(power));
         rightBackDrive.setPower(Math.abs(power));
 
-        while(leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy())
-        {}
+        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+        }
 
         leftFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//         Display it for the driver.
+        telemetry.addData("Running to", " %7d :%7d :%7d :%7d", leftFrontTargetPosition, leftBackTargetPosition, rightFrontTargetPosition, rightBackTargetPosition);
+        telemetry.addData("Currently at", " at %7d :%7d :%7d :%7d",
+                leftFrontDrive.getCurrentPosition(), rightFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition());
+        telemetry.update();
+    }
 
+    public void driveBackward(double distanceCm, double power) {
+        double backwardsDistance = -(Math.abs(distanceCm));
+        drive(backwardsDistance, power);
+    }
 
-                // Display it for the driver.
-                telemetry.addData("Running to", " %7d :%7d :%7d :%7d", frontLeftTargetPosition, backLeftTargetPosition, frontRightTargetPosition, backRightTargetPosition);
-                telemetry.addData("Currently at", " at %7d :%7d :%7d :%7d",
-                        leftFrontDrive.getCurrentPosition(), rightFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition());
-                telemetry.update();
+    public void driveForward(double distanceCm, double power) {
+        double forwardsDistance = (Math.abs(distanceCm));
+        drive(forwardsDistance, power);
+    }
+
+    public void strafe(double distanceCm, double power) {
+        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() + (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() + (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+
+        leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
+        leftBackDrive.setTargetPosition(leftBackTargetPosition);
+        rightFrontDrive.setTargetPosition(rightFrontTargetPosition);
+        rightBackDrive.setTargetPosition(rightBackTargetPosition);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftFrontDrive.setPower(Math.abs(power));
+        leftBackDrive.setPower(Math.abs(power));
+        rightFrontDrive.setPower(Math.abs(power));
+        rightBackDrive.setPower(Math.abs(power));
+
+        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+        }
+
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+//         Display it for the driver.
+        telemetry.addData("Running to", " %7d :%7d :%7d :%7d", leftFrontTargetPosition, leftBackTargetPosition, rightFrontTargetPosition, rightBackTargetPosition);
+        telemetry.addData("Currently at", " at %7d :%7d :%7d :%7d",
+                leftFrontDrive.getCurrentPosition(), rightFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition());
+        telemetry.update();
+    }
+
+    public void strafeRight(double distanceCm, double power) {
+        double strafeRightDistance = -(Math.abs(distanceCm));
+        strafe(strafeRightDistance, power);
+    }
+
+    public void strafeLeft(double distanceCm, double power) {
+        double strafeLeftDistance = (Math.abs(distanceCm));
+        strafe(strafeLeftDistance, power);
     }
 }
