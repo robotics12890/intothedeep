@@ -26,8 +26,10 @@ public class Robot {
     static final double COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_CENTIMETERS * 3.1415);
 
+    public HardwareMap hardwareMap;
 
-    public Robot(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap) {
+        hardwareMap = hardwareMap;
 
         // Initialize the drive system variables.
         leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");

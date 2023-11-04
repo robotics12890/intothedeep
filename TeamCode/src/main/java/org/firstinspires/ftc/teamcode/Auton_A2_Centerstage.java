@@ -28,34 +28,35 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
+@Autonomous(name = "Auton A2 MVP v2", group = "Robot")
+public class Auton_A2_Centerstage extends LinearOpMode {
 
-@Autonomous(name = "Auton F4 MVP v4", group = "Robot")
+    /* Declare OpMode members. */
+    Robot robot = new Robot();
 
-public class Auton_F4_Centerstage extends LinearOpMode{
+    @Override
+    public void runOpMode() {
+        robot.init(hardwareMap);
+        // Send telemetry message to indicate successful Encoder reset
+        telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
+                robot.leftFrontDrive.getCurrentPosition(),
+                robot.rightFrontDrive.getCurrentPosition(),
+                robot.leftBackDrive.getCurrentPosition(),
+                robot.rightBackDrive.getCurrentPosition());
+        telemetry.update();
 
-        /* Declare OpMode members. */
-        Robot robot = new Robot();
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
 
-        @Override
-        public void runOpMode() {
-            robot.init(hardwareMap);
-            // Send telemetry message to indicate successful Encoder reset
-            telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
-                    robot.leftFrontDrive.getCurrentPosition(),
-                    robot.rightFrontDrive.getCurrentPosition(),
-                    robot.leftBackDrive.getCurrentPosition(),
-                    robot.rightBackDrive.getCurrentPosition());
-            telemetry.update();
+        //algorithm
+        robot.driveForward(61,0.5);
+        robot.strafeLeft(183,0.5);
+        robot.driveBackward(61,0.5);
+        robot.strafeLeft(61,0.5);
 
-            // Wait for the game to start (driver presses PLAY)
-            waitForStart();
-
-            //algorithm
-            robot.strafeRight(131, 1);
-
-            telemetry.addData("Path", "Complete");
-            telemetry.update();
-            sleep(1000);  // pause to display final telemetry message.
-        }
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+        sleep(1000);  // pause to display final telemetry message.
     }
+}
 

@@ -59,15 +59,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Robot: Auto Drive By Encoder v20", group = "Robot")
+@Autonomous(name = "Robot: Auto Drive By Encoder v22", group = "Robot")
 
 public class Auton_12890_Centerstage extends LinearOpMode {
 
     /* Declare OpMode members. */
-    Robot robot = new Robot(hardwareMap);
+    Robot robot = new Robot();
 
     @Override
     public void runOpMode() {
+        robot.init(hardwareMap);
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
                 robot.leftFrontDrive.getCurrentPosition(),

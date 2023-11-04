@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -63,7 +64,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="TeleOp_12890_Centerstage", group="Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v7", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -73,17 +74,22 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotor hangingMotor = null;
+    private Servo rightClaw = null;
+    private Servo leftClaw = null;
+
 
     @Override
     public void runOpMode() {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
+        rightClaw = hardwareMap.get(Servo.class, "right_claw");
+        leftClaw = hardwareMap.get(Servo.class, "left_claw");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -113,18 +119,20 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
             boolean retractHangingMotor = gamepad2.a;
             boolean extendHangingMotor = gamepad2.y;
+            boolean openClaw = gamepad2.right_bumper;
+            boolean closeClaw = gamepad2.left_bumper;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
+            double leftFrontPower = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
+            double leftBackPower = axial - lateral + yaw;
+            double rightBackPower = axial + lateral - yaw;
             //double hangingMotorPower = 1;
 
             // Normalize the values so no wheel power exceeds 100%
@@ -134,10 +142,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
 
             if (max > 1.0) {
-                leftFrontPower  /= max;
+                leftFrontPower /= max;
                 rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
                 //hangingMotorPower /= max;
             }
 
@@ -160,7 +168,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             */
 
             double extendHangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
-            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;  // A gamepad
+            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;// A
+            double rightClawPosition = rightClaw.getPosition();
+            double leftClawPosition = leftClaw.getPosition();
+
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
@@ -174,8 +185,34 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.addData("Extend Hanging Motor","%4.2f", extendHangingMotorPower);
-            telemetry.addData("Retract Hanging Motor","%4.2f", retractHangingMotorPower);
+            telemetry.addData("Extend Hanging Motor", "%4.2f", extendHangingMotorPower);
+            telemetry.addData("Retract Hanging Motor", "%4.2f", retractHangingMotorPower);
+            telemetry.addData("Right Claw Position", "%4.2f", rightClawPosition);
+            telemetry.addData("Left Claw Position", "%4.2f", leftClawPosition);
             telemetry.update();
+
+            if (gamepad2.right_bumper) {
+                leftClaw.setPosition(.2);
+                rightClaw.setPosition(0);
+            }
+            if (gamepad2.left_bumper) {
+                leftClaw.setPosition(0);
+                rightClaw.setPosition(.2);
+
+
+            }
+
+//        public void openClaw () {
+//            rightClaw.setPosition(.9);
+//            leftClaw.setPosition(.9);
+//        }
+//
+//        public void closeClaw () {
+//            rightClaw.setPosition(1.2);
+//            leftClaw.setPosition(.6);
+//
+//        }
+
         }
-    }}
+    }
+}
