@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -11,6 +12,13 @@ public class Robot {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
+    public DcMotor hangingMotor = null;
+    public Servo rightClaw = null;
+    public Servo leftClaw = null;
+    static final double RIGHT_CLAW_CLOSED_POSITION = 0.175;
+    static final double LEFT_CLAW_CLOSED_POSITION = 0.625;
+    static final double RIGHT_CLAW_OPEN_POSITION = 0;
+    static final double LEFT_CLAW_OPEN_POSITION = 0.8;
 
     public ElapsedTime runtime = new ElapsedTime();
 
@@ -36,6 +44,9 @@ public class Robot {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
+        rightClaw = hardwareMap.get(Servo.class, "right_claw");
+        leftClaw = hardwareMap.get(Servo.class, "left_claw");
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -51,10 +62,8 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-
     }
+
     // move forward / backward function
     public void drive(double distanceCm, double power) {
         int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
@@ -76,6 +85,7 @@ public class Robot {
         leftBackDrive.setPower(Math.abs(power));
         rightFrontDrive.setPower(Math.abs(power));
         rightBackDrive.setPower(Math.abs(power));
+
 
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
         }
@@ -121,9 +131,9 @@ public class Robot {
         leftFrontDrive.setPower(Math.abs(power));
         leftBackDrive.setPower(Math.abs(power));
         rightFrontDrive.setPower(Math.abs(power));
-        rightBackDrive.setPower(Math.abs(power)); while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+        rightBackDrive.setPower(Math.abs(power));
+        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
         }
-
 
 
         leftFrontDrive.setPower(0);
@@ -147,4 +157,24 @@ public class Robot {
         double strafeLeftDistance = (Math.abs(distanceCm));
         strafe(strafeLeftDistance, power);
     }
+
+    public void closeClaw() {
+        rightClaw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
+        leftClaw.setPosition(LEFT_CLAW_CLOSED_POSITION);
+    }
+
+    public void openClaw() {
+        rightClaw.setPosition(RIGHT_CLAW_OPEN_POSITION);
+        leftClaw.setPosition(LEFT_CLAW_OPEN_POSITION);
+    }
+
+    public void extendHangingMotor(double power) {
+        hangingMotor.setPower(Math.abs(power));
+    }
+
+    public void retractHangingMotor(double power) {
+        hangingMotor.setPower(-(Math.abs(power)));
+    }
+
 }
+

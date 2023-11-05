@@ -64,7 +64,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v7", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v26", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -77,10 +77,12 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
     private Servo rightClaw = null;
     private Servo leftClaw = null;
 
+    Robot robot = new Robot();
 
     @Override
     public void runOpMode() {
 
+        robot.init(hardwareMap);
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
         leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
@@ -122,10 +124,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
-            boolean retractHangingMotor = gamepad2.a;
-            boolean extendHangingMotor = gamepad2.y;
-            boolean openClaw = gamepad2.right_bumper;
-            boolean closeClaw = gamepad2.left_bumper;
+            boolean retractHangingMotorButtonPressed = gamepad2.a;
+            boolean extendHangingMotorButtonPressed = gamepad2.y;
+            boolean openClawButtonPressed = gamepad2.right_bumper;
+            boolean closeClawButtonPressed = gamepad2.left_bumper;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -133,7 +135,6 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
-            //double hangingMotorPower = 1;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -146,72 +147,42 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
                 rightFrontPower /= max;
                 leftBackPower /= max;
                 rightBackPower /= max;
-                //hangingMotorPower /= max;
             }
-
-            // This is test code:
-            //
-            // Uncomment the following code to test your motor directions.
-            // Each button should make the corresponding motor run FORWARD.
-            //   1) First get all the motors to take to correct positions on the robot
-            //      by adjusting your Robot Configuration if necessary.
-            //   2) Then make sure they run in the correct direction by modifying the
-            //      the setDirection() calls above.
-            // Once the correct motors move in the correct direction re-comment this code.
-
-            /*
-            leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-            leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
-            rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
-            rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
-
-            */
-
-            double extendHangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
-            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;// A
-            double rightClawPosition = rightClaw.getPosition();
-            double leftClawPosition = leftClaw.getPosition();
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
-            hangingMotor.setPower(extendHangingMotorPower);
-            hangingMotor.setPower(retractHangingMotorPower);
-
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.addData("Extend Hanging Motor", "%4.2f", extendHangingMotorPower);
-            telemetry.addData("Retract Hanging Motor", "%4.2f", retractHangingMotorPower);
-            telemetry.addData("Right Claw Position", "%4.2f", rightClawPosition);
-            telemetry.addData("Left Claw Position", "%4.2f", leftClawPosition);
             telemetry.update();
 
-            if (gamepad2.right_bumper) {
-                leftClaw.setPosition(.2);
-                rightClaw.setPosition(0);
-            }
-            if (gamepad2.left_bumper) {
-                leftClaw.setPosition(0);
-                rightClaw.setPosition(.2);
-
-
+            if (openClawButtonPressed) {
+                robot.openClaw();
             }
 
-//        public void openClaw () {
-//            rightClaw.setPosition(.9);
-//            leftClaw.setPosition(.9);
-//        }
-//
-//        public void closeClaw () {
-//            rightClaw.setPosition(1.2);
-//            leftClaw.setPosition(.6);
-//
-//        }
+            if (closeClawButtonPressed) {
+                robot.closeClaw();
+            }
+
+            if (extendHangingMotorButtonPressed) {
+                robot.extendHangingMotor(1);
+            } else {
+                robot.extendHangingMotor(0);
+            }
+
+            if (retractHangingMotorButtonPressed) {
+                robot.retractHangingMotor(1);
+            } else {
+                robot.retractHangingMotor(0);
+            }
+
+//            double extendHangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
+//            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;// A
 
         }
     }
