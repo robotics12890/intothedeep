@@ -29,10 +29,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -64,7 +64,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v26", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v38", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -74,6 +74,8 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotor hangingMotor = null;
+    private DcMotor tiltMotor = null;
+    private DcMotor elevatorMotor = null;
     private Servo rightClaw = null;
     private Servo leftClaw = null;
 
@@ -90,6 +92,8 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
+        tiltMotor = hardwareMap.get(DcMotor.class, "tilt_motor");
+        elevatorMotor = hardwareMap.get(DcMotor.class, "elevator_motor");
         rightClaw = hardwareMap.get(Servo.class, "right_claw");
         leftClaw = hardwareMap.get(Servo.class, "left_claw");
 
@@ -108,6 +112,8 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
+        tiltMotor.setDirection(DcMotor.Direction.FORWARD);
+        elevatorMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -124,10 +130,14 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
+            double elevatorControl = gamepad2.left_stick_y;
+            boolean tiltUpButtonPressed = gamepad2.b;
+            boolean tiltDownButtonPressed = gamepad2.x;
             boolean retractHangingMotorButtonPressed = gamepad2.a;
             boolean extendHangingMotorButtonPressed = gamepad2.y;
             boolean openClawButtonPressed = gamepad2.right_bumper;
             boolean closeClawButtonPressed = gamepad2.left_bumper;
+
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -135,6 +145,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
+            double elevatorPower = elevatorControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -184,6 +195,29 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 //            double extendHangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
 //            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;// A
 
+            if (tiltUpButtonPressed) {
+                robot.tiltUp(0.5);
+            }else{
+                robot.tiltUp(0);
+            }
+
+            if (tiltDownButtonPressed) {
+                robot.tiltDown(0.5);
+            }else{
+                robot.tiltDown(0);
+            }
+
+            if (elevatorControl > 0) {
+                robot.elevate(elevatorPower);
+            }else {
+                robot.elevate(0);
+            }
+
+            if (elevatorControl < 0) {
+                robot.lower(elevatorPower);
+            }else{
+                robot.lower(0);
+            }
         }
     }
 }

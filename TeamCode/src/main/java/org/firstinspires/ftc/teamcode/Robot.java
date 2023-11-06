@@ -13,6 +13,8 @@ public class Robot {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor hangingMotor = null;
+    public DcMotor tiltMotor = null;
+    public DcMotor elevatorMotor = null;
     public Servo rightClaw = null;
     public Servo leftClaw = null;
     static final double RIGHT_CLAW_CLOSED_POSITION = 0.175;
@@ -45,6 +47,8 @@ public class Robot {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
+        tiltMotor = hardwareMap.get(DcMotor.class,"tilt_motor");
+        elevatorMotor = hardwareMap.get(DcMotor.class,"elevator_motor");
         rightClaw = hardwareMap.get(Servo.class, "right_claw");
         leftClaw = hardwareMap.get(Servo.class, "left_claw");
 
@@ -176,5 +180,20 @@ public class Robot {
         hangingMotor.setPower(-(Math.abs(power)));
     }
 
+    public void tiltUp(double power){
+        tiltMotor.setPower((Math.abs(power)));
+    }
+
+    public void tiltDown(double power){
+        tiltMotor.setPower(-(Math.abs(power)));
+    }
+
+    public void elevate(double power) {
+        elevatorMotor.setPower(-(Math.abs(power)));
+    }
+
+    public void lower (double power){
+        elevatorMotor.setPower((Math.abs(power)));
+    }
 }
 
