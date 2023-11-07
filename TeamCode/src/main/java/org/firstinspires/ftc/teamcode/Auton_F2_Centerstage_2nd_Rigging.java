@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+
 /*
  * This OpMode illustrates the concept of driving a path based on encoder counts.
  * The code is structured as a LinearOpMode
@@ -29,37 +30,37 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Auton F4 v10", group = "Robot")
+@Autonomous(name = "Auton A2 2nd Rigging v2", group = "Robot")
+public class Auton_F2_Centerstage_2nd_Rigging extends LinearOpMode{
 
-public class Auton_F4_Centerstage extends LinearOpMode{
+    /* Declare OpMode members. */
+    Robot robot = new Robot();
 
-        /* Declare OpMode members. */
-        Robot robot = new Robot();
+    @Override
+    public void runOpMode() {
+        robot.init(hardwareMap);
+        // Send telemetry message to indicate successful Encoder reset
+        telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
+                robot.leftFrontDrive.getCurrentPosition(),
+                robot.rightFrontDrive.getCurrentPosition(),
+                robot.leftBackDrive.getCurrentPosition(),
+                robot.rightBackDrive.getCurrentPosition());
+        telemetry.update();
 
-        @Override
-        public void runOpMode() {
-            robot.init(hardwareMap);
-            // Send telemetry message to indicate successful Encoder reset
-            telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
-                    robot.leftFrontDrive.getCurrentPosition(),
-                    robot.rightFrontDrive.getCurrentPosition(),
-                    robot.leftBackDrive.getCurrentPosition(),
-                    robot.rightBackDrive.getCurrentPosition());
-            telemetry.update();
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
 
-            // Wait for the game to start (driver presses PLAY)
-            waitForStart();
+        //algorithm
+        robot.closeClaw();
+        robot.driveForward(61,0.5);
+        robot.openClaw();
+        robot.strafeRight(183,0.5);
+        robot.driveBackward(61,0.5);
+        robot.strafeRight(61,0.5);
 
-            //algorithm
-            robot.closeClaw();
-            robot.driveForward(64,0.5);
-            robot.openClaw();
-            robot.driveBackward(58,0.5);
-            robot.strafeRight(121, 0.5);
-
-            telemetry.addData("Path", "Complete");
-            telemetry.update();
-            sleep(1000);  // pause to display final telemetry message.
-        }
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+        sleep(1000);  // pause to display final telemetry message.
     }
+}
 

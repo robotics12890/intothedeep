@@ -51,6 +51,10 @@ public class Auton_A4_Centerstage extends LinearOpMode{
         waitForStart();
 
         //algorithm
+        robot.closeClaw();
+        robot.driveForward(64,0.5);
+        robot.openClaw();
+        robot.driveBackward(58,0.5);
         robot.strafeLeft(131, 1);
 
         telemetry.addData("Path", "Complete");

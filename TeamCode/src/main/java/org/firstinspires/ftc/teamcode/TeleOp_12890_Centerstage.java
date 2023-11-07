@@ -64,7 +64,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v38", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v39", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.

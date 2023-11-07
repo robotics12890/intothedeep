@@ -28,12 +28,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
+@Autonomous(name = "Auton F2 1st Rigging v4", group = "Robot")
 
-@Autonomous(name = "Auton F4 v10", group = "Robot")
+public class Auton_F2_Centerstage_1st_Rigging extends LinearOpMode{
 
-public class Auton_F4_Centerstage extends LinearOpMode{
-
-        /* Declare OpMode members. */
+    /* Declare OpMode members. */
         Robot robot = new Robot();
 
         @Override
@@ -55,11 +54,10 @@ public class Auton_F4_Centerstage extends LinearOpMode{
             robot.driveForward(64,0.5);
             robot.openClaw();
             robot.driveBackward(58,0.5);
-            robot.strafeRight(121, 0.5);
+            robot.strafeRight(264, 0.5);
 
             telemetry.addData("Path", "Complete");
             telemetry.update();
             sleep(1000);  // pause to display final telemetry message.
         }
     }
-
