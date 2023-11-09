@@ -179,12 +179,14 @@ public class Robot {
     public void retractHangingMotor(double power) {
         hangingMotor.setPower(-(Math.abs(power)));
     }
-
+//down
     public void tiltUp(double power){
+        tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         tiltMotor.setPower((Math.abs(power)));
     }
-
+//up
     public void tiltDown(double power){
+        tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         tiltMotor.setPower(-(Math.abs(power)));
     }
 
