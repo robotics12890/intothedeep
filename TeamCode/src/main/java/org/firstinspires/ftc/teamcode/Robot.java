@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -56,6 +57,7 @@ public class Robot {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        tiltMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -179,15 +181,15 @@ public class Robot {
     public void retractHangingMotor(double power) {
         hangingMotor.setPower(-(Math.abs(power)));
     }
-//down
+
     public void tiltUp(double power){
         tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         tiltMotor.setPower((Math.abs(power)));
     }
-//up
-    public void tiltDown(double power){
+
+    public void tilt(double power){
         tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        tiltMotor.setPower(-(Math.abs(power)));
+        tiltMotor.setPower(Math.abs(power));
     }
 
     public void elevate(double power) {

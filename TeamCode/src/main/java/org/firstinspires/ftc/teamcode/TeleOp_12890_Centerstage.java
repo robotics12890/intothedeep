@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v41", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v44", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -111,7 +111,6 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         hangingMotor.setDirection(DcMotor.Direction.FORWARD);
-        tiltMotor.setDirection(DcMotor.Direction.FORWARD);
         elevatorMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
@@ -194,17 +193,23 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 //            double extendHangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
 //            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;// A
 
-            if (tiltUpButtonPressed) {
-                robot.tiltUp(0.5);
-            }else{
-                robot.tiltUp(0);
-            }
+//            tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            double tiltPower = gamepad2.right_stick_y;
+//            tiltMotor.setPower(tiltPower);
 
-            if (tiltDownButtonPressed) {
-                robot.tiltDown(0.5);
-            }else{
-                robot.tiltDown(0);
-            }
+            robot.tilt(tiltPower);
+
+//            if (tiltUpButtonPressed) {
+//                robot.tiltUp(0.5);
+//            }else{
+//                robot.tiltUp(0);
+//            }
+//
+//            if (tiltDownButtonPressed) {
+//                robot.tiltDown(0.5);
+//            }else{
+//                robot.tiltDown(0);
+//            }
 
             if (elevatorControl > 0) {
                 robot.elevate(elevatorPower);
