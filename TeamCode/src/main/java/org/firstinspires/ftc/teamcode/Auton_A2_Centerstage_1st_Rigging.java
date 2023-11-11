@@ -30,7 +30,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  */
 
 
-@Autonomous(name = "Auton A2 1st Rigging v1", group = "Robot")
+@Autonomous(name = "Auton A2 1st Rigging v4", group = "Robot")
 public class Auton_A2_Centerstage_1st_Rigging extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -51,8 +51,8 @@ public class Auton_A2_Centerstage_1st_Rigging extends LinearOpMode {
         waitForStart();
 
         //algorithm
-        robot.closeClaw();
         robot.driveForward(64,0.5);
+        robot.closeClaw();
         robot.openClaw();
         robot.driveBackward(54,0.5);
         robot.strafeLeft(264,0.5);

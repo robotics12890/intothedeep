@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v44", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v49", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -129,12 +129,14 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
             double elevatorControl = gamepad2.left_stick_y;
+            double tiltPower = gamepad2.right_stick_y;
             boolean tiltUpButtonPressed = gamepad2.b;
             boolean tiltDownButtonPressed = gamepad2.x;
             boolean retractHangingMotorButtonPressed = gamepad2.a;
             boolean extendHangingMotorButtonPressed = gamepad2.y;
             boolean openClawButtonPressed = gamepad2.right_bumper;
             boolean closeClawButtonPressed = gamepad2.left_bumper;
+            boolean completelyOpenClawButtonPressed = gamepad2.b;
 
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -178,6 +180,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
                 robot.closeClaw();
             }
 
+            if(completelyOpenClawButtonPressed){
+                robot.completlyOpenClaw();
+            }
+
             if (extendHangingMotorButtonPressed) {
                 robot.extendHangingMotor(1);
             } else {
@@ -194,7 +200,6 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 //            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;// A
 
 //            tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            double tiltPower = gamepad2.right_stick_y;
 //            tiltMotor.setPower(tiltPower);
 
             robot.tilt(tiltPower);

@@ -30,7 +30,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Auton A2 2nd Rigging v2", group = "Robot")
+@Autonomous(name = "Auton F2 2nd Rigging v3", group = "Robot")
 public class Auton_F2_Centerstage_2nd_Rigging extends LinearOpMode{
 
     /* Declare OpMode members. */
@@ -51,8 +51,9 @@ public class Auton_F2_Centerstage_2nd_Rigging extends LinearOpMode{
         waitForStart();
 
         //algorithm
+
+        robot.driveForward(69,0.5);
         robot.closeClaw();
-        robot.driveForward(61,0.5);
         robot.openClaw();
         robot.strafeRight(183,0.5);
         robot.driveBackward(61,0.5);

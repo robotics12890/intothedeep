@@ -22,6 +22,8 @@ public class Robot {
     static final double LEFT_CLAW_CLOSED_POSITION = 0.625;
     static final double RIGHT_CLAW_OPEN_POSITION = 0;
     static final double LEFT_CLAW_OPEN_POSITION = 0.8;
+    static final double RIGHT_CLAW_COMPLETELY_OPEN = 0;
+    static final double LEFT_CLAW_COMPLETELY_OPEN = 1;
 
     public ElapsedTime runtime = new ElapsedTime();
 
@@ -174,6 +176,11 @@ public class Robot {
         leftClaw.setPosition(LEFT_CLAW_OPEN_POSITION);
     }
 
+    public void completlyOpenClaw(){
+        rightClaw.setPosition(RIGHT_CLAW_COMPLETELY_OPEN);
+        leftClaw.setPosition(LEFT_CLAW_OPEN_POSITION);
+    }
+
     public void extendHangingMotor(double power) {
         hangingMotor.setPower(Math.abs(power));
     }
@@ -182,14 +189,14 @@ public class Robot {
         hangingMotor.setPower(-(Math.abs(power)));
     }
 
-    public void tiltUp(double power){
-        tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        tiltMotor.setPower((Math.abs(power)));
-    }
+//    public void tiltUp(double power){
+//        tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        tiltMotor.setPower((Math.abs(power)));
+//    }
 
     public void tilt(double power){
         tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        tiltMotor.setPower(Math.abs(power));
+        tiltMotor.setPower(power);// i would advise not to use this as an absolute value because when you put negative power on a motor it may go down
     }
 
     public void elevate(double power) {
