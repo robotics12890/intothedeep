@@ -51,10 +51,10 @@ public class Auton_A2_Centerstage_1st_Rigging extends LinearOpMode {
         waitForStart();
 
         //algorithm
-        robot.driveForward(67,0.5);
-        robot.closeClaw();
+        robot.driveForward(73,0.5);
         robot.openClaw();
-        robot.driveBackward(54,0.5);
+        robot.autonElevate(-21,0.5);
+        robot.driveBackward(60,0.5);
         robot.strafeLeft(264,0.5);
 
         telemetry.addData("Path", "Complete");

@@ -31,8 +31,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -63,55 +61,17 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v49", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v52", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
-    private DcMotor hangingMotor = null;
-    private DcMotor tiltMotor = null;
-    private DcMotor elevatorMotor = null;
-    private Servo rightClaw = null;
-    private Servo leftClaw = null;
 
     Robot robot = new Robot();
 
     @Override
     public void runOpMode() {
-
         robot.init(hardwareMap);
-        // Initialize the hardware variables. Note that the strings used here must correspond
-        // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
-        tiltMotor = hardwareMap.get(DcMotor.class, "tilt_motor");
-        elevatorMotor = hardwareMap.get(DcMotor.class, "elevator_motor");
-        rightClaw = hardwareMap.get(Servo.class, "right_claw");
-        leftClaw = hardwareMap.get(Servo.class, "left_claw");
-
-        // ########################################################################################
-        // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
-        // ########################################################################################
-        // Most robots need the motors on one side to be reversed to drive forward.
-        // The motor reversals shown here are for a "direct drive" robot (the wheels turn the same direction as the motor shaft)
-        // If your robot has additional gear reductions or uses a right-angled drive, it's important to ensure
-        // that your motors are turning in the correct direction.  So, start out with the reversals here, BUT
-        // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
-        // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
-        // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        hangingMotor.setDirection(DcMotor.Direction.FORWARD);
-        elevatorMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -122,25 +82,19 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            double max;
-
-            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+            // Map Controls
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
             double elevatorControl = gamepad2.left_stick_y;
-            double tiltPower = gamepad2.right_stick_y;
-            boolean tiltUpButtonPressed = gamepad2.b;
-            boolean tiltDownButtonPressed = gamepad2.x;
+            double tiltAmount = gamepad2.right_stick_y;
             boolean retractHangingMotorButtonPressed = gamepad2.a;
             boolean extendHangingMotorButtonPressed = gamepad2.y;
             boolean openClawButtonPressed = gamepad2.right_bumper;
             boolean closeClawButtonPressed = gamepad2.left_bumper;
             boolean completelyOpenClawButtonPressed = gamepad2.b;
 
-
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
-            // Set up a variable for each drive wheel to save the power level for telemetry.
             double leftFrontPower = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
@@ -149,6 +103,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
+            double max;
             max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
@@ -161,16 +116,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             }
 
             // Send calculated power to wheels
-            leftFrontDrive.setPower(leftFrontPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            leftBackDrive.setPower(leftBackPower);
-            rightBackDrive.setPower(rightBackPower);
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.update();
+            robot.leftFrontDrive.setPower(leftFrontPower/4);
+            robot.rightFrontDrive.setPower(rightFrontPower/4);
+            robot.leftBackDrive.setPower(leftBackPower/4);
+            robot.rightBackDrive.setPower(rightBackPower/4);
 
             if (openClawButtonPressed) {
                 robot.openClaw();
@@ -181,7 +130,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             }
 
             if(completelyOpenClawButtonPressed){
-                robot.completlyOpenClaw();
+                robot.completelyOpenClaw();
             }
 
             if (extendHangingMotorButtonPressed) {
@@ -196,25 +145,7 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
                 robot.retractHangingMotor(0);
             }
 
-//            double extendHangingMotorPower = extendHangingMotor ? 1.0 : 0.0;  // Y gamepad
-//            double retractHangingMotorPower = retractHangingMotor ? -1.0 : 0.0;// A
-
-//            tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//            tiltMotor.setPower(tiltPower);
-
-            robot.tilt(tiltPower);
-
-//            if (tiltUpButtonPressed) {
-//                robot.tiltUp(0.5);
-//            }else{
-//                robot.tiltUp(0);
-//            }
-//
-//            if (tiltDownButtonPressed) {
-//                robot.tiltDown(0.5);
-//            }else{
-//                robot.tiltDown(0);
-//            }
+            robot.tilt(tiltAmount);
 
             if (elevatorControl > 0) {
                 robot.elevate(elevatorPower);
@@ -227,6 +158,12 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             }else{
                 robot.lower(0);
             }
+
+            // Show the elapsed game time and wheel power.
+            telemetry.addData("Status", "Run Time: " + runtime);
+            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.update();
         }
     }
 }

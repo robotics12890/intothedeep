@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -22,8 +21,8 @@ public class Robot {
     static final double LEFT_CLAW_CLOSED_POSITION = 0.625;
     static final double RIGHT_CLAW_OPEN_POSITION = 0;
     static final double LEFT_CLAW_OPEN_POSITION = 0.8;
-    static final double RIGHT_CLAW_COMPLETELY_OPEN = 0;
-    static final double LEFT_CLAW_COMPLETELY_OPEN = 1;
+    static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
+    static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.95;
 
     public ElapsedTime runtime = new ElapsedTime();
 
@@ -58,12 +57,13 @@ public class Robot {
         rightClaw = hardwareMap.get(Servo.class, "right_claw");
         leftClaw = hardwareMap.get(Servo.class, "left_claw");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        hangingMotor.setDirection(DcMotor.Direction.FORWARD);
         elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
-        tiltMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        tiltMotor.setDirection(DcMotor.Direction.REVERSE);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -95,10 +95,10 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power));
-        leftBackDrive.setPower(Math.abs(power));
-        rightFrontDrive.setPower(Math.abs(power));
-        rightBackDrive.setPower(Math.abs(power));
+        leftFrontDrive.setPower(Math.abs(power)/4);
+        leftBackDrive.setPower(Math.abs(power)/4);
+        rightFrontDrive.setPower(Math.abs(power)/4);
+        rightBackDrive.setPower(Math.abs(power)/4);
 
 
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
@@ -108,21 +108,15 @@ public class Robot {
         leftBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
-
-//         Display it for the driver.
-//        telemetry.addData("Running to", " %7d :%7d :%7d :%7d", leftFrontTargetPosition, leftBackTargetPosition, rightFrontTargetPosition, rightBackTargetPosition);
-//        telemetry.addData("Currently at", " at %7d :%7d :%7d :%7d",
-//                leftFrontDrive.getCurrentPosition(), rightFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition());
-//        telemetry.update();
     }
 
     public void driveBackward(double distanceCm, double power) {
-        double backwardsDistance = -(Math.abs(distanceCm));
+        double backwardsDistance = (Math.abs(distanceCm));
         drive(backwardsDistance, power);
     }
 
     public void driveForward(double distanceCm, double power) {
-        double forwardsDistance = (Math.abs(distanceCm));
+        double forwardsDistance = -(Math.abs(distanceCm));
         drive(forwardsDistance, power);
     }
 
@@ -155,21 +149,50 @@ public class Robot {
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
 
-//         Display it for the driver.
-//        telemetry.addData("Running to", " %7d :%7d :%7d :%7d", leftFrontTargetPosition, leftBackTargetPosition, rightFrontTargetPosition, rightBackTargetPosition);
-//        telemetry.addData("Currently at", " at %7d :%7d :%7d :%7d",
-//                leftFrontDrive.getCurrentPosition(), rightFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition());
-//        telemetry.update();
     }
 
     public void strafeRight(double distanceCm, double power) {
-        double strafeRightDistance = -(Math.abs(distanceCm));
+        double strafeRightDistance = (Math.abs(distanceCm));
         strafe(strafeRightDistance, power);
     }
 
     public void strafeLeft(double distanceCm, double power) {
-        double strafeLeftDistance = (Math.abs(distanceCm));
+        double strafeLeftDistance = -(Math.abs(distanceCm));
         strafe(strafeLeftDistance, power);
+    }
+
+    public void turn (double distanceCm, double power){
+        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+
+        leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
+        leftBackDrive.setTargetPosition(leftBackTargetPosition);
+        rightFrontDrive.setTargetPosition(rightFrontTargetPosition);
+        rightBackDrive.setTargetPosition(rightBackTargetPosition);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftFrontDrive.setPower(Math.abs(power));
+        leftBackDrive.setPower(Math.abs(power));
+        rightFrontDrive.setPower(Math.abs(power));
+        rightBackDrive.setPower(Math.abs(power));
+        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+        }
+    }
+
+    public void turnRight (double distanceCm, double power){
+        double turnRightDistance = (Math.abs(distanceCm));
+        strafe(turnRightDistance, power);
+    }
+
+    public void turnLeft (double distanceCm, double power){
+        double turnLeftDistance = (Math.abs(distanceCm));
+        strafe(turnLeftDistance, power);
     }
 
     public void closeClaw() {
@@ -182,9 +205,9 @@ public class Robot {
         leftClaw.setPosition(LEFT_CLAW_OPEN_POSITION);
     }
 
-    public void completlyOpenClaw(){
-        rightClaw.setPosition(RIGHT_CLAW_COMPLETELY_OPEN);
-        leftClaw.setPosition(LEFT_CLAW_OPEN_POSITION);
+    public void completelyOpenClaw(){
+        rightClaw.setPosition(RIGHT_CLAW_COMPLETELY_OPEN_POSITION);
+        leftClaw.setPosition(LEFT_CLAW_COMPLETELY_OPEN_POSITION);
     }
 
     public void extendHangingMotor(double power) {
@@ -195,24 +218,23 @@ public class Robot {
         hangingMotor.setPower(-(Math.abs(power)));
     }
 
-//    public void tiltUp(double power){
-//        tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//        tiltMotor.setPower((Math.abs(power)));
-//    }
-
     public void tilt(double power){
         tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         tiltMotor.setPower(power);// i would advise not to use this as an absolute value because when you put negative power on a motor it may go down
     }
 
-    public void autonElevator (double distanceCm, double power){
-        int elevatorTargetPosition = elevatorMotor.getCurrentPosition() - (int) (distanceCm * ELEVATOR_COUNTS_PER_CENTIMETERS);
+    public void autonElevate(double distanceCm, double power){
+        int elevatorTargetPosition = elevatorMotor.getCurrentPosition() - (int) (distanceCm * 120);
 
         elevatorMotor.setTargetPosition(elevatorTargetPosition);
 
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        elevatorMotor.setPower(Math.abs(power));
+        elevatorMotor.setPower(-Math.abs(power));
+
+    }
+
+    public void autonTilt(double distanceCm, double power){
 
     }
 

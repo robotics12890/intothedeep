@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Robot: Auto Drive By Encoder v22", group = "Robot")
+@Autonomous(name = "Robot: Auto Drive By Encoder v23", group = "Robot")
 
 public class Auton_12890_Centerstage extends LinearOpMode {
 
@@ -81,7 +81,7 @@ public class Auton_12890_Centerstage extends LinearOpMode {
         waitForStart();
 
         //algorithm
-        robot.autonElevator(10,0.5);
+        robot.autonElevate(10,0.5);
 //        robot.driveForward(30.5, 1);
 //        robot.strafeLeft(30.5, 1);
 //        robot.driveBackward(30.5, 1);

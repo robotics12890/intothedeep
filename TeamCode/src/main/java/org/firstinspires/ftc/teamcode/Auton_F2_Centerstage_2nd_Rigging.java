@@ -52,9 +52,9 @@ public class Auton_F2_Centerstage_2nd_Rigging extends LinearOpMode{
 
         //algorithm
 
-        robot.driveForward(67,0.5);
-        robot.closeClaw();
+        robot.driveForward(73,0.5);
         robot.openClaw();
+        robot.autonElevate(-21,0.5);
         robot.strafeRight(183,0.5);
         robot.driveBackward(61,0.5);
         robot.strafeRight(61,0.5);
