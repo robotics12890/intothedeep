@@ -81,10 +81,11 @@ public class Auton_12890_Centerstage extends LinearOpMode {
         waitForStart();
 
         //algorithm
-        robot.driveForward(30.5, 1);
-        robot.strafeLeft(30.5, 1);
-        robot.driveBackward(30.5, 1);
-        robot.strafeRight(30.5, 1);
+        robot.autonElevator(10,0.5);
+//        robot.driveForward(30.5, 1);
+//        robot.strafeLeft(30.5, 1);
+//        robot.driveBackward(30.5, 1);
+//        robot.strafeRight(30.5, 1);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

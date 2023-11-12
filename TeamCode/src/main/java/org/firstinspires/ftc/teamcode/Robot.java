@@ -35,9 +35,12 @@ public class Robot {
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
     static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
-    static final double WHEEL_DIAMETER_CENTIMETERS = 9.6;     // For figuring circumference
-    static final double COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_CENTIMETERS * 3.1415);
+    static final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;     // For figuring circumference
+    static final double ELEVATOR_WHEEL_DIAMETER_CENTIMETERS = 4;
+    static final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (DRIVE_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
+    static final double ELEVATOR_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (ELEVATOR_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
 
     public HardwareMap hardwareMap;
 
@@ -59,25 +62,28 @@ public class Robot {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        elevatorMotor.setDirection(DcMotor.Direction.REVERSE);
         tiltMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     // move forward / backward function
     public void drive(double distanceCm, double power) {
-        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
-        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
-        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
-        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
 
         leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
         leftBackDrive.setTargetPosition(leftBackTargetPosition);
@@ -121,10 +127,10 @@ public class Robot {
     }
 
     public void strafe(double distanceCm, double power) {
-        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() + (int) (distanceCm * COUNTS_PER_CENTIMETERS);
-        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
-        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (distanceCm * COUNTS_PER_CENTIMETERS);
-        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() + (int) (distanceCm * COUNTS_PER_CENTIMETERS);
+        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
+        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
 
         leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
         leftBackDrive.setTargetPosition(leftBackTargetPosition);
@@ -199,8 +205,18 @@ public class Robot {
         tiltMotor.setPower(power);// i would advise not to use this as an absolute value because when you put negative power on a motor it may go down
     }
 
-    public void elevate(double power) {
-        elevatorMotor.setPower(-(Math.abs(power)));
+    public void autonElevator (double distanceCm, double power){
+        int elevatorTargetPosition = elevatorMotor.getCurrentPosition() - (int) (distanceCm * ELEVATOR_COUNTS_PER_CENTIMETERS);
+
+        elevatorMotor.setTargetPosition(elevatorTargetPosition);
+
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        elevatorMotor.setPower(Math.abs(power));
+
+    }
+
+    public void elevate(double power) {elevatorMotor.setPower(-(Math.abs(power)));
     }
 
     public void lower (double power){
