@@ -51,8 +51,7 @@ public class Auton_F4_Centerstage extends LinearOpMode{
             waitForStart();
 
             //algorithm
-            robot.driveForward(73,0.5);
-            robot.closeClaw();
+            robot.driveForward(75,0.5);
             robot.driveBackward(58,0.5);
             robot.strafeRight(121, 0.5);
 

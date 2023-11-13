@@ -35,11 +35,11 @@ public class Robot {
     static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
     static final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;     // For figuring circumference
-    static final double ELEVATOR_WHEEL_DIAMETER_CENTIMETERS = 4;
+    //    static final double ELEVATOR_WHEEL_DIAMETER_CENTIMETERS = 4;
     static final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (DRIVE_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
-    static final double ELEVATOR_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (ELEVATOR_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
+//    static final double ELEVATOR_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+//            (ELEVATOR_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
 
     public HardwareMap hardwareMap;
 
@@ -52,8 +52,8 @@ public class Robot {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         hangingMotor = hardwareMap.get(DcMotor.class, "hanging_motor");
-        tiltMotor = hardwareMap.get(DcMotor.class,"tilt_motor");
-        elevatorMotor = hardwareMap.get(DcMotor.class,"elevator_motor");
+        tiltMotor = hardwareMap.get(DcMotor.class, "tilt_motor");
+        elevatorMotor = hardwareMap.get(DcMotor.class, "elevator_motor");
         rightClaw = hardwareMap.get(Servo.class, "right_claw");
         leftClaw = hardwareMap.get(Servo.class, "left_claw");
 
@@ -95,10 +95,10 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power)/4);
-        leftBackDrive.setPower(Math.abs(power)/4);
-        rightFrontDrive.setPower(Math.abs(power)/4);
-        rightBackDrive.setPower(Math.abs(power)/4);
+        leftFrontDrive.setPower(Math.abs(power) * 0.5);
+        leftBackDrive.setPower(Math.abs(power) * 0.5);
+        rightFrontDrive.setPower(Math.abs(power) * 0.5);
+        rightBackDrive.setPower(Math.abs(power) * 0.5);
 
 
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
@@ -136,10 +136,10 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power));
-        leftBackDrive.setPower(Math.abs(power));
-        rightFrontDrive.setPower(Math.abs(power));
-        rightBackDrive.setPower(Math.abs(power));
+        leftFrontDrive.setPower(Math.abs(power) * 0.5);
+        leftBackDrive.setPower(Math.abs(power) * 0.5);
+        rightFrontDrive.setPower(Math.abs(power) * 0.5);
+        rightBackDrive.setPower(Math.abs(power) * 0.5);
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
         }
 
@@ -161,7 +161,7 @@ public class Robot {
         strafe(strafeLeftDistance, power);
     }
 
-    public void turn (double distanceCm, double power){
+    public void turn(double distanceCm, double power) {
         int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
         int leftBackTargetPosition = leftBackDrive.getCurrentPosition() - (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
         int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() + (int) (distanceCm * DRIVE_COUNTS_PER_CENTIMETERS);
@@ -185,14 +185,14 @@ public class Robot {
         }
     }
 
-    public void turnRight (double distanceCm, double power){
+    public void turnRight(double distanceCm, double power) {
         double turnRightDistance = (Math.abs(distanceCm));
-        strafe(turnRightDistance, power);
+        turn(turnRightDistance, power);
     }
 
-    public void turnLeft (double distanceCm, double power){
+    public void turnLeft(double distanceCm, double power) {
         double turnLeftDistance = (Math.abs(distanceCm));
-        strafe(turnLeftDistance, power);
+        turn(turnLeftDistance, power);
     }
 
     public void closeClaw() {
@@ -205,7 +205,7 @@ public class Robot {
         leftClaw.setPosition(LEFT_CLAW_OPEN_POSITION);
     }
 
-    public void completelyOpenClaw(){
+    public void completelyOpenClaw() {
         rightClaw.setPosition(RIGHT_CLAW_COMPLETELY_OPEN_POSITION);
         leftClaw.setPosition(LEFT_CLAW_COMPLETELY_OPEN_POSITION);
     }
@@ -218,30 +218,46 @@ public class Robot {
         hangingMotor.setPower(-(Math.abs(power)));
     }
 
-    public void tilt(double power){
+    public void tilt(double power) {
         tiltMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         tiltMotor.setPower(power);// i would advise not to use this as an absolute value because when you put negative power on a motor it may go down
     }
 
-    public void autonElevate(double distanceCm, double power){
-        int elevatorTargetPosition = elevatorMotor.getCurrentPosition() - (int) (distanceCm * 120);
+    public void autonElevate(double distanceCm, double power) {
+        int elevatorTargetPosition = elevatorMotor.getCurrentPosition() + (int) (distanceCm * 900);
+
+        elevatorMotor.setTargetPosition(elevatorTargetPosition);
+
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        elevatorMotor.setPower(Math.abs(power));
+
+    }
+
+    public void autonTilt(double distanceCm, double power) {
+        int elevatorTargetPosition = elevatorMotor.getCurrentPosition() - (int) (distanceCm * 4500);
 
         elevatorMotor.setTargetPosition(elevatorTargetPosition);
 
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         elevatorMotor.setPower(-Math.abs(power));
-
     }
 
-    public void autonTilt(double distanceCm, double power){
-
+    public void autonTiltUp(double distanceCm, double power) {
+        double tiltUpDistance = (Math.abs(distanceCm));
+        autonTilt(tiltUpDistance, power);
+    }
+    public void autonTiltDown(double distanceCm, double power) {
+        double tiltDownDistance = (-Math.abs(distanceCm));
+        autonTilt(tiltDownDistance, power);
     }
 
-    public void elevate(double power) {elevatorMotor.setPower(-(Math.abs(power)));
+    public void elevate(double power) {
+        elevatorMotor.setPower(-(Math.abs(power)));
     }
 
-    public void lower (double power){
+    public void lower(double power) {
         elevatorMotor.setPower((Math.abs(power)));
     }
 }

@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  *
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
  *  that performs the actual movement.
- *  This method assumes that each movement is relative to the last stopping place.
+ *  This method assumes that each movement is relative to` the last stopping place.
  *  There are other ways to perform encoder based moves, but this method is probably the simplest.
  *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
  *
@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Robot: Auto Drive By Encoder v23", group = "Robot")
+@Autonomous(name = "Robot: Auto Drive By Encoder v29", group = "Robot")
 
 public class Auton_12890_Centerstage extends LinearOpMode {
 
@@ -81,7 +81,10 @@ public class Auton_12890_Centerstage extends LinearOpMode {
         waitForStart();
 
         //algorithm
-        robot.autonElevate(10,0.5);
+        robot.autonElevate(30,0.5);
+
+        //robot.autonTilt(4,0.5)
+
 //        robot.driveForward(30.5, 1);
 //        robot.strafeLeft(30.5, 1);
 //        robot.driveBackward(30.5, 1);
