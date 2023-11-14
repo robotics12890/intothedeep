@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Auton F4 v13", group = "Robot")
+@Autonomous(name = "Auton F4 v14", group = "Robot")
 
 public class Auton_F4_Centerstage extends LinearOpMode{
 
@@ -52,7 +52,7 @@ public class Auton_F4_Centerstage extends LinearOpMode{
 
             //algorithm
             robot.driveForward(75,0.5);
-            robot.driveBackward(58,0.5);
+            robot.driveBackward(70,0.5);
             robot.strafeRight(121, 0.5);
 
             telemetry.addData("Path", "Complete");
