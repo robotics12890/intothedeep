@@ -226,6 +226,8 @@ public class Robot {
     public void autonElevate(double distanceCm, double power) {
         int elevatorTargetPosition = elevatorMotor.getCurrentPosition() + (int) (distanceCm * 900);
 
+
+
         elevatorMotor.setTargetPosition(elevatorTargetPosition);
 
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
