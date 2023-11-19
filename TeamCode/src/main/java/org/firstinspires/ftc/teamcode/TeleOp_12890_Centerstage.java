@@ -116,10 +116,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             }
 
             // Send calculated power to wheels
-            robot.leftFrontDrive.setPower(leftFrontPower * 0.45);
-            robot.rightFrontDrive.setPower(rightFrontPower* 0.45);
-            robot.leftBackDrive.setPower(leftBackPower* 0.45);
-            robot.rightBackDrive.setPower(rightBackPower* 0.45);
+            robot.leftFrontDrive.setPower(leftFrontPower * 0.6);
+            robot.rightFrontDrive.setPower(rightFrontPower * 0.6);
+            robot.leftBackDrive.setPower(leftBackPower * 0.6);
+            robot.rightBackDrive.setPower(rightBackPower * 0.6);
 
             if (openClawButtonPressed) {
                 robot.openClaw();

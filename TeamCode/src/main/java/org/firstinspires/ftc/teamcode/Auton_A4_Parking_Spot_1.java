@@ -31,7 +31,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "Auton A4 v4", group = "Robot")
 
-public class Auton_A4_Centerstage extends LinearOpMode{
+public class Auton_A4_Parking_Spot_1 extends LinearOpMode{
 
     /* Declare OpMode members. */
     Robot robot = new Robot();
@@ -51,9 +51,9 @@ public class Auton_A4_Centerstage extends LinearOpMode{
         waitForStart();
 
         //algorithm
-        robot.driveForward(75,0.5);
-        robot.driveBackward(70,0.5);
-        robot.strafeLeft(121, 1);
+        robot.driveForward(75,robot.MAX_DRIVE_SPEED);
+        robot.driveBackward(70,robot.MAX_DRIVE_SPEED);
+        robot.strafeLeft(121, robot.MAX_DRIVE_SPEED);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

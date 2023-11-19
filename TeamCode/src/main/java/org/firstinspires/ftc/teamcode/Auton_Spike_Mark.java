@@ -29,35 +29,37 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Auton F4 v14", group = "Robot")
+@Autonomous(name = "Auton Spike Mark v1", group = "Robot")
 
-public class Auton_F4_Centerstage extends LinearOpMode{
+public class Auton_Spike_Mark
+        extends LinearOpMode {
 
-        /* Declare OpMode members. */
-        Robot robot = new Robot();
 
-        @Override
-        public void runOpMode() {
-            robot.init(hardwareMap);
-            // Send telemetry message to indicate successful Encoder reset
-            telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
-                    robot.leftFrontDrive.getCurrentPosition(),
-                    robot.rightFrontDrive.getCurrentPosition(),
-                    robot.leftBackDrive.getCurrentPosition(),
-                    robot.rightBackDrive.getCurrentPosition());
-            telemetry.update();
+    /* Declare OpMode members. */
+    Robot robot = new Robot();
 
-            // Wait for the game to start (driver presses PLAY)
-            waitForStart();
+    @Override
+    public void runOpMode() {
+        robot.init(hardwareMap);
+        // Send telemetry message to indicate successful Encoder reset
+        telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
+                robot.leftFrontDrive.getCurrentPosition(),
+                robot.rightFrontDrive.getCurrentPosition(),
+                robot.leftBackDrive.getCurrentPosition(),
+                robot.rightBackDrive.getCurrentPosition());
+        telemetry.update();
 
-            //algorithm
-            robot.driveForward(75,0.5);
-            robot.driveBackward(70,0.5);
-            robot.strafeRight(121, 0.5);
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
 
-            telemetry.addData("Path", "Complete");
-            telemetry.update();
-            sleep(1000);  // pause to display final telemetry message.
-        }
+        //algorithm
+        robot.driveForward(75, robot.MAX_DRIVE_SPEED);
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+        sleep(1000);  // pause to display final telemetry message.
     }
+}
+
+
 

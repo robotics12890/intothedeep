@@ -28,40 +28,42 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-@Autonomous(name = "Auton F2 1st Rigging v13", group = "Robot")
 
-public class Auton_F2_Centerstage_1st_Rigging extends LinearOpMode{
+
+@Autonomous(name = "Auton A2 1st Rigging Spot 1 v11", group = "Robot")
+public class Auton_A2_1st_Rigging_Parking_Spot_1 extends LinearOpMode {
 
     /* Declare OpMode members. */
-        Robot robot = new Robot();
+    Robot robot = new Robot();
 
-        @Override
-        public void runOpMode() {
-            robot.init(hardwareMap);
-            // Send telemetry message to indicate successful Encoder reset
-            telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
-                    robot.leftFrontDrive.getCurrentPosition(),
-                    robot.rightFrontDrive.getCurrentPosition(),
-                    robot.leftBackDrive.getCurrentPosition(),
-                    robot.rightBackDrive.getCurrentPosition());
-            telemetry.update();
+    @Override
+    public void runOpMode() {
+        robot.init(hardwareMap);
+        // Send telemetry message to indicate successful Encoder reset
+        telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
+                robot.leftFrontDrive.getCurrentPosition(),
+                robot.rightFrontDrive.getCurrentPosition(),
+                robot.leftBackDrive.getCurrentPosition(),
+                robot.rightBackDrive.getCurrentPosition());
+        telemetry.update();
 
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
 
-            // Wait for the game to start (driver presses PLAY)
-            waitForStart();
+        //algorithm
+        robot.driveForward(75,robot.MAX_DRIVE_SPEED);
+        robot.driveBackward(70,robot.MAX_DRIVE_SPEED);
+        robot.openClaw();
+        robot.autonElevate(-21,robot.MAX_DRIVE_SPEED);
+        robot.completelyOpenClaw();
+        robot.strafeLeft(260,robot.MAX_DRIVE_SPEED);
 
-            //algorithm
-            robot.driveForward(75,0.5);
-            robot.driveBackward(70,0.5);
-            robot.openClaw();
-            robot.autonElevate(-21,0.5);
-            robot.completelyOpenClaw();
-            robot.strafeRight(264,0.5);
-//            robot.turnRight(61,0.5);
-//            robot.driveForward (264, 0.5);
+//        robot.driveForward(54,0.5);
+//        robot.driveForward(264,0.5);
 
-            telemetry.addData("Path", "Complete");
-            telemetry.update();
-            sleep(1000);  // pause to display final telemetry message.
-        }
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+        sleep(1000);  // pause to display final telemetry message.
     }
+}
+

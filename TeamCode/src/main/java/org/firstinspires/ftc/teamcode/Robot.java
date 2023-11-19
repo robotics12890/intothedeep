@@ -23,6 +23,7 @@ public class Robot {
     static final double LEFT_CLAW_OPEN_POSITION = 0.8;
     static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
     static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.95;
+    static final double MAX_DRIVE_SPEED = 0.5;
 
     public ElapsedTime runtime = new ElapsedTime();
 
@@ -95,10 +96,10 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power) * 0.5);
-        leftBackDrive.setPower(Math.abs(power) * 0.5);
-        rightFrontDrive.setPower(Math.abs(power) * 0.5);
-        rightBackDrive.setPower(Math.abs(power) * 0.5);
+        leftFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        leftBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
 
 
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
@@ -136,10 +137,11 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power) * 0.5);
-        leftBackDrive.setPower(Math.abs(power) * 0.5);
-        rightFrontDrive.setPower(Math.abs(power) * 0.5);
-        rightBackDrive.setPower(Math.abs(power) * 0.5);
+        leftFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        leftBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+
         while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
         }
 
