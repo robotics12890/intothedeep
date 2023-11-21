@@ -22,7 +22,7 @@ public class Robot {
     static final double RIGHT_CLAW_OPEN_POSITION = 0;
     static final double LEFT_CLAW_OPEN_POSITION = 0.8;
     static final double RIGHT_CLAW_COMPLETELY_OPEN_POSITION = -0.15;
-    static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.95;
+    static final double LEFT_CLAW_COMPLETELY_OPEN_POSITION = 0.9;
     static final double MAX_DRIVE_SPEED = 0.5;
 
     public ElapsedTime runtime = new ElapsedTime();

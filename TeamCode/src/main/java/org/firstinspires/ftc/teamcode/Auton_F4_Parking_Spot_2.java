@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Auton A4 Spot 2", group = "Robot")
-public class Auton_A4_Parking_Spot_2 extends LinearOpMode {
+@Autonomous(name = "Auton F4 Spot 2 v1", group = "Robot")
+
+public class Auton_F4_Parking_Spot_2
+        extends LinearOpMode {
     /* Declare OpMode members. */
     Robot robot = new Robot();
 
@@ -23,15 +25,17 @@ public class Auton_A4_Parking_Spot_2 extends LinearOpMode {
         waitForStart();
 
         //algorithm
-        robot.driveForward(75,robot.MAX_DRIVE_SPEED);
-        robot.driveBackward(30.5,robot.MAX_DRIVE_SPEED);
+        robot.driveForward(75, robot.MAX_DRIVE_SPEED);
+        robot.driveBackward(30.5, robot.MAX_DRIVE_SPEED);
         robot.strafeLeft(61, robot.MAX_DRIVE_SPEED);
         robot.driveForward(84, robot.MAX_DRIVE_SPEED);
-        robot.strafeLeft(61,robot.MAX_DRIVE_SPEED);
+        robot.strafeLeft(61, robot.MAX_DRIVE_SPEED);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
 }
+
+
 

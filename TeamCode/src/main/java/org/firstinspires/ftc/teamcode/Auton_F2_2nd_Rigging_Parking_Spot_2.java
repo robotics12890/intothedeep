@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous (name = "Auton F2 2nd Rigging Spot 2")
+@Autonomous(name = "Auton F2 2nd Rigging Spot 2 v2")
 public class Auton_F2_2nd_Rigging_Parking_Spot_2 extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -24,9 +24,12 @@ public class Auton_F2_2nd_Rigging_Parking_Spot_2 extends LinearOpMode {
         waitForStart();
 
         //algorithm
-        robot.driveForward(75,robot.MAX_DRIVE_SPEED);
-        robot.driveBackward(70,robot.MAX_DRIVE_SPEED);
-        robot.strafeLeft(121, robot.MAX_DRIVE_SPEED);
+        robot.driveForward(75, robot.MAX_DRIVE_SPEED);
+        robot.driveBackward(10, robot.MAX_DRIVE_SPEED);
+        robot.openClaw();
+        robot.autonElevate(-21, robot.MAX_DRIVE_SPEED);
+        robot.strafeRight(250, robot.MAX_DRIVE_SPEED);
+        robot.driveForward(59, robot.MAX_DRIVE_SPEED);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
