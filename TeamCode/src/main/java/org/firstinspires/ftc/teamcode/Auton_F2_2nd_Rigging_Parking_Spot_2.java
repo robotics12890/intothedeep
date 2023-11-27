@@ -22,7 +22,7 @@ public class Auton_F2_2nd_Rigging_Parking_Spot_2 extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
+//  does not work
         //algorithm
         robot.driveForward(75, robot.MAX_DRIVE_SPEED);
         robot.driveBackward(10, robot.MAX_DRIVE_SPEED);

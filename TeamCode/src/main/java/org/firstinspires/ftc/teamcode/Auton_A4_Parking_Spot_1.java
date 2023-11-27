@@ -30,7 +30,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  */
 
 @Autonomous(name = "Auton A4 v4", group = "Robot")
-
 public class Auton_A4_Parking_Spot_1 extends LinearOpMode{
 
     /* Declare OpMode members. */
