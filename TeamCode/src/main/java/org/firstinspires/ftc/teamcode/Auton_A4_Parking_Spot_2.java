@@ -26,8 +26,10 @@ public class Auton_A4_Parking_Spot_2 extends LinearOpMode {
         robot.driveForward(75,robot.MAX_DRIVE_SPEED);
         robot.driveBackward(30.5,robot.MAX_DRIVE_SPEED);
         robot.strafeLeft(61, robot.MAX_DRIVE_SPEED);
+        //robot.strafeRight(61,robot.MAX_DRIVE_SPEED);
         robot.driveForward(84, robot.MAX_DRIVE_SPEED);
         robot.strafeLeft(61,robot.MAX_DRIVE_SPEED);
+        //robot.strafeRight(61,robot.MAX_DRIVE_SPEED);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

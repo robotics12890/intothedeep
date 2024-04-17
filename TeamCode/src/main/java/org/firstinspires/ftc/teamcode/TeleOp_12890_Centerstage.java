@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Centerstage v56", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Centerstage v58", group = "Linear OpMode")
 public class TeleOp_12890_Centerstage extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -116,10 +116,10 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             }
 
             // Send calculated power to wheels
-            robot.leftFrontDrive.setPower(leftFrontPower * 0.6);
-            robot.rightFrontDrive.setPower(rightFrontPower * 0.6);
-            robot.leftBackDrive.setPower(leftBackPower * 0.6);
-            robot.rightBackDrive.setPower(rightBackPower * 0.6);
+            robot.leftFrontDrive.setPower(leftFrontPower * 0.4);
+            robot.rightFrontDrive.setPower(rightFrontPower * 0.4);
+            robot.leftBackDrive.setPower(leftBackPower * 0.4);
+            robot.rightBackDrive.setPower(rightBackPower * 0.4);
 
             if (openClawButtonPressed) {
                 robot.openClaw();
