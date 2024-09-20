@@ -80,15 +80,10 @@ public class Auton_12890_Centerstage extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        //algorithm
-        robot.autonElevate(30,0.5);
-
-        //robot.autonTilt(4,0.5)
-
-//        robot.driveForward(30.5, 1);
-//        robot.strafeLeft(30.5, 1);
-//        robot.driveBackward(30.5, 1);
-//        robot.strafeRight(30.5, 1);
+        robot.driveForward(30.5, 1);
+        robot.strafeLeft(30.5, 1);
+        robot.driveBackward(30.5, 1);
+        robot.strafeRight(30.5, 1);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

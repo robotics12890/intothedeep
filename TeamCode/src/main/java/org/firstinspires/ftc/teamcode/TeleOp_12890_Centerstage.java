@@ -86,20 +86,12 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
-            double elevatorControl = gamepad2.left_stick_y;
-            double tiltAmount = gamepad2.right_stick_y;
-            boolean retractHangingMotorButtonPressed = gamepad2.a;
-            boolean extendHangingMotorButtonPressed = gamepad2.y;
-            boolean openClawButtonPressed = gamepad2.right_bumper;
-            boolean closeClawButtonPressed = gamepad2.left_bumper;
-            boolean completelyOpenClawButtonPressed = gamepad2.b;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
-            double elevatorPower = elevatorControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -120,44 +112,6 @@ public class TeleOp_12890_Centerstage extends LinearOpMode {
             robot.rightFrontDrive.setPower(rightFrontPower * 0.5);
             robot.leftBackDrive.setPower(leftBackPower * 0.5);
             robot.rightBackDrive.setPower(rightBackPower * 0.5);
-
-            if (openClawButtonPressed) {
-                robot.openClaw();
-            }
-
-            if (closeClawButtonPressed) {
-                robot.closeClaw();
-            }
-
-            if(completelyOpenClawButtonPressed){
-                robot.completelyOpenClaw();
-            }
-
-            if (extendHangingMotorButtonPressed) {
-                robot.extendHangingMotor(1);
-            } else {
-                robot.extendHangingMotor(0);
-            }
-
-            if (retractHangingMotorButtonPressed) {
-                robot.retractHangingMotor(1);
-            } else {
-                robot.retractHangingMotor(0);
-            }
-
-            robot.tilt(tiltAmount);
-
-            if (elevatorControl > 0) {
-                robot.elevate(elevatorPower);
-            }else {
-                robot.elevate(0);
-            }
-
-            if (elevatorControl < 0) {
-                robot.lower(elevatorPower);
-            }else{
-                robot.lower(0);
-            }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);
