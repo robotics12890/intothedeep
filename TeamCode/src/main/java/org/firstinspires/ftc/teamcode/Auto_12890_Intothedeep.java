@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "Robot: Auto Drive By Encoder v29", group = "Robot")
 
-public class Auton_12890_Centerstage extends LinearOpMode {
+public class Auto_12890_Intothedeep extends LinearOpMode {
 
     /* Declare OpMode members. */
     Robot robot = new Robot();

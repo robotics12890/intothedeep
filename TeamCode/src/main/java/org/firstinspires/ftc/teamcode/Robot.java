@@ -26,6 +26,8 @@ public class Robot {
     static final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;     // For figuring circumference
     static final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (DRIVE_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
+    static final double DRIVE_WHEEL_BASE_CENTIMETERS = 4;
+    static final double DRIVE_COUNTS_PER_DEGREE = (DRIVE_COUNTS_PER_CENTIMETERS * DRIVE_WHEEL_BASE_CENTIMETERS * 3.1415)/360.0;
 
     public HardwareMap hardwareMap;
 
@@ -135,6 +137,47 @@ public class Robot {
     public void strafeLeft(double distanceCm, double power) {
         double strafeLeftDistance = -(Math.abs(distanceCm));
         strafe(strafeLeftDistance, power);
+    }
+    public void pivot(double degrees, double power) {
+        int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() + (int) (degrees * DRIVE_COUNTS_PER_DEGREE);
+        int leftBackTargetPosition = leftBackDrive.getCurrentPosition() + (int) (degrees * DRIVE_COUNTS_PER_DEGREE);
+        int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (degrees * DRIVE_COUNTS_PER_DEGREE);
+        int rightBackTargetPosition = rightBackDrive.getCurrentPosition() - (int) (degrees * DRIVE_COUNTS_PER_DEGREE);
+
+        leftFrontDrive.setTargetPosition(leftFrontTargetPosition);
+        leftBackDrive.setTargetPosition(leftBackTargetPosition);
+        rightFrontDrive.setTargetPosition(rightFrontTargetPosition);
+        rightBackDrive.setTargetPosition(rightBackTargetPosition);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        leftBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+
+
+        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+        }
+
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+    }
+
+    public void pivotLeft (double degrees, double power) {
+        double pivotLeftDistance = (Math.abs(degrees));
+        strafe(pivotLeftDistance, power);
+    }
+
+    public void pivotRight (double degrees, double power) {
+        double pivotRightDistance = -(Math.abs(degrees));
+        pivot(pivotRightDistance,power);
     }
 }
 
