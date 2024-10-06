@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Robot: mvp Park a3/f4 red v1", group = "Robot")
+@Autonomous(name = "Robot: mvp Park a3/f4 v2", group = "Robot")
 public class mvp_Park_a3_f4 extends LinearOpMode {
     Robot robot = new Robot();
 

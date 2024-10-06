@@ -23,7 +23,7 @@ public class Robot {
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
     static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
-    static final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.6;     // For figuring circumference
+    static final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.4;     // For figuring circumference
     static final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (DRIVE_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
     static final double DRIVE_WHEEL_BASE_CENTIMETERS = 4;
