@@ -2,13 +2,16 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Robot: mvp Park a3/f4 v2", group = "Robot")
-public class mvp_Park_a3_f4 extends LinearOpMode {
+@Autonomous (name = "MVP Part A4/F3 to A2/F5")
+public class MVP_Park_A4_2_F3_5 extends LinearOpMode {
+
     Robot robot = new Robot();
 
-    public void runOpMode() {
+    public void runOpMode(){
         robot.init(hardwareMap);
         waitForStart();
-        robot.strafeRight(48, 1);
+
+        robot.strafeRight(120,1);
+        //assign distance for two tiles
     }
 }

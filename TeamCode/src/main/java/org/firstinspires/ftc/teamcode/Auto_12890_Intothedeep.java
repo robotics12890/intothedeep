@@ -80,10 +80,14 @@ public class Auto_12890_Intothedeep extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        robot.driveForward(30.5, 1);
+        /* robot.driveForward(30.5, 1);
         robot.strafeLeft(30.5, 1);
         robot.driveBackward(30.5, 1);
         robot.strafeRight(30.5, 1);
+         */
+
+        robot. pivotRight(90,1);
+        robot. pivotLeft(90,1);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

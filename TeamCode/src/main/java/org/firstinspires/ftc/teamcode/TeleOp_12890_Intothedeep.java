@@ -86,6 +86,9 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
+            //double scissorLiftControl = gamepad2.left_stick_y;
+            //double extensionControl = gamepade2.right_stick_y;
+            //double intakeControl = gamepad2.right_trigger;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;

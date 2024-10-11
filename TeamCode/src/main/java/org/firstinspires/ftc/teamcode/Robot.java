@@ -11,6 +11,9 @@ public class Robot {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
+    //public DcMotor leadScrewMotor = null;
+    //public DcMotor extensionMotor = null;
+    //public CRServo intake = null
     static final double MAX_DRIVE_SPEED = 1;
 
     public ElapsedTime runtime = new ElapsedTime();
@@ -39,6 +42,9 @@ public class Robot {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        //leadScrewMotor = hardwareMap.get(DcMotor.class, "lead_screw_motor");
+        //extensionMotor = hardwareMap.get(DcMotor.class, "extension_motor");
+        //intake = hardwareMap.get(CRServo.class, "intake");
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
