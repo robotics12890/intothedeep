@@ -9,8 +9,10 @@ public class mvp_Park_a5_1_f2_6 extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         waitForStart();
+
+        robot.driveForward(7,1);
         robot.strafeRight(240, 1);
-        //This goes from a5/f2 to a1/f6
+        //This strafes from a5/f2 to a1/f6 after driving slightly forward to avoid scraping the wall.
         //4 tiles
     }
 }

@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Robot: Auto Drive By Encoder v29", group = "Robot")
+@Autonomous(name = "Robot: Auto Drive By Encoder v30", group = "Robot")
 
 public class Auto_12890_Intothedeep extends LinearOpMode {
 
@@ -86,8 +86,8 @@ public class Auto_12890_Intothedeep extends LinearOpMode {
         robot.strafeRight(30.5, 1);
          */
 
-        robot. pivotRight(90,1);
-        robot. pivotLeft(90,1);
+        robot.spinClockwise(90,1);
+        robot.spinCounterClockwise(90,1);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

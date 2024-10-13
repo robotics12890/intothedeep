@@ -33,6 +33,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.internal.usb.EthernetOverUsbSerialNumber;
+
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -61,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v1", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v2", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -86,15 +88,26 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
+            boolean spinClockwise90ButtonPressed = gamepad1.dpad_right;
+            boolean spinCounterclockwise90ButtonPressed = gamepad1.dpad_left;
+            boolean spinClockwise180ButtonPressed = gamepad1.dpad_up;
+            boolean spinCounterclockwise180ButtonPressed = gamepad1.dpad_down;
             //double scissorLiftControl = gamepad2.left_stick_y;
             //double extensionControl = gamepade2.right_stick_y;
             //double intakeControl = gamepad2.right_trigger;
+            //double outtakeControl = gamepad2.left_trigger;
+            //boolean wristUpButtonPressed = gamepad2.right_bumper;
+            //boolean wristDownButtonPressed = gamepad2.left_bumper;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
+            //double scissorLiftPower = scissorLiftControl;
+            //double extensionPower = extensionControl;
+            //double intakePower = intakeControl; (does this work for continuous Servos?)
+            //double outtakePower = outtakeControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -121,6 +134,54 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
+
+            if (spinClockwise90ButtonPressed){
+                robot.spinClockwise(90,0.5);
+            }
+
+            if (spinCounterclockwise90ButtonPressed) {
+                robot.spinCounterClockwise(90,0.5);
+            }
+
+            if (spinClockwise180ButtonPressed) {
+                robot.spinClockwise(180,0.5);
+            }
+
+            if (spinCounterclockwise180ButtonPressed) {
+                robot.spinCounterClockwise(180, 0.5);
+            }
+
+           /*if (wristUpButtonPressed) {
+                robot.wristUp
+            }
+
+            if (wristDownButtonPressed){
+                robot.wristDown
+            }
+
+            if (scissorLiftControl > 0) {
+                robot.extendScissorLift(scissorLiftPower);
+            }
+
+            if (scissorLiftControl < 0 ) {
+                robot.retractScissorLift(scissorLiftPower);
+            }
+
+            if (extensionContol > 0) {
+                robot.extendLinearSlide(extensionPower);
+            }
+
+            if (extensionControl < 0) {
+                robot.retractLinearSlide(extensionPower);
+            }
+
+            if (intakeControl > 0) {
+                robot.intake(intakePower)
+            }
+
+            if (outtakeControl < 0) {
+                robot.outtake(outtake Power)
+            }*/
         }
     }
 }

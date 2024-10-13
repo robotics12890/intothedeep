@@ -13,8 +13,12 @@ public class Robot {
     public DcMotor rightBackDrive = null;
     //public DcMotor leadScrewMotor = null;
     //public DcMotor extensionMotor = null;
-    //public CRServo intake = null
-    static final double MAX_DRIVE_SPEED = 1;
+    //public CRServo intakeServo = null
+    //public Servo wristServo = null
+    static final double MAX_DRIVE_SPEED = 1; //Is this too fast?
+    //static final double WRIST_UP_POSITION = x; (find Servo position)
+    //static final double WRIST_DOWN_POSITION = y; (find Servo position)
+
 
     public ElapsedTime runtime = new ElapsedTime();
 
@@ -28,9 +32,9 @@ public class Robot {
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
     static final double DRIVE_WHEEL_DIAMETER_CENTIMETERS = 9.4;     // For figuring circumference
     static final double DRIVE_COUNTS_PER_CENTIMETERS = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (DRIVE_WHEEL_DIAMETER_CENTIMETERS * 3.1415);
+            (DRIVE_WHEEL_DIAMETER_CENTIMETERS * Math.PI);
     static final double DRIVE_WHEEL_BASE_CENTIMETERS = 4;
-    static final double DRIVE_COUNTS_PER_DEGREE = (DRIVE_COUNTS_PER_CENTIMETERS * DRIVE_WHEEL_BASE_CENTIMETERS * 3.1415)/360.0;
+    static final double DRIVE_COUNTS_PER_DEGREE = (DRIVE_COUNTS_PER_CENTIMETERS * DRIVE_WHEEL_BASE_CENTIMETERS * Math.PI)/360.0;
 
     public HardwareMap hardwareMap;
 
@@ -44,7 +48,8 @@ public class Robot {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         //leadScrewMotor = hardwareMap.get(DcMotor.class, "lead_screw_motor");
         //extensionMotor = hardwareMap.get(DcMotor.class, "extension_motor");
-        //intake = hardwareMap.get(CRServo.class, "intake");
+        //intakeServo = hardwareMap.get(CRServo.class, "intake_servo");
+        //wristServo = hardwareMap.get(Servo.class, "wrist_servo)
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -144,7 +149,7 @@ public class Robot {
         double strafeLeftDistance = -(Math.abs(distanceCm));
         strafe(strafeLeftDistance, power);
     }
-    public void pivot(double degrees, double power) {
+    public void spin(double degrees, double power) {
         int leftFrontTargetPosition = leftFrontDrive.getCurrentPosition() + (int) (degrees * DRIVE_COUNTS_PER_DEGREE);
         int leftBackTargetPosition = leftBackDrive.getCurrentPosition() + (int) (degrees * DRIVE_COUNTS_PER_DEGREE);
         int rightFrontTargetPosition = rightFrontDrive.getCurrentPosition() - (int) (degrees * DRIVE_COUNTS_PER_DEGREE);
@@ -176,14 +181,45 @@ public class Robot {
 
     }
 
-    public void pivotLeft (double degrees, double power) {
+    public void spinCounterClockwise(double degrees, double power) {
         double pivotLeftDistance = (Math.abs(degrees));
         strafe(pivotLeftDistance, power);
     }
 
-    public void pivotRight (double degrees, double power) {
+    public void spinClockwise(double degrees, double power) {
         double pivotRightDistance = -(Math.abs(degrees));
-        pivot(pivotRightDistance,power);
+        spin(pivotRightDistance,power);
     }
+
+    /*public void wristUp() {
+        wristServo.setPosition(WRIST_UP_POSITION);
+    }
+
+    public void wristDown(){
+        wristServo.setPosition(WRIST_DOWN_POSITION);
+    }
+
+    public void extendScissorLift (double power){
+        leadScrewMotor.setPower(Math.abs(power));
+    }
+
+    public void retractScissorLift(double power) {
+        leadScrewMotor.setPower(-(Math.abs(power)));
+
+    }
+    public void extendLinearSlide (double power){
+        extensionMotor.setPower(Math.abs(power));
+        }
+
+    public void retractLinearSlide(double power){
+        extensionMotor.setPower(-(Math.abs(power)));
+
+    public void intake(double power){
+        intakeServo.setPower(Math.abs(power));
+        }
+
+    public void outtake(double power){
+        intakeServo.setPower(-(Math.abs(power)));
+        }*/
 }
 
