@@ -92,7 +92,8 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             boolean spinCounterclockwise90ButtonPressed = gamepad1.dpad_left;
             boolean spinClockwise180ButtonPressed = gamepad1.dpad_up;
             boolean spinCounterclockwise180ButtonPressed = gamepad1.dpad_down;
-            //double scissorLiftControl = gamepad2.left_stick_y;
+
+            double scissorLiftControl = gamepad2.left_stick_y;
             //double extensionControl = gamepade2.right_stick_y;
             //double intakeControl = gamepad2.right_trigger;
             //double outtakeControl = gamepad2.left_trigger;
@@ -104,7 +105,7 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
-            //double scissorLiftPower = scissorLiftControl;
+            double scissorLiftPower = scissorLiftControl;
             //double extensionPower = extensionControl;
             //double intakePower = intakeControl; (does this work for continuous Servos?)
             //double outtakePower = outtakeControl;
@@ -125,9 +126,10 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
             // Send calculated power to wheels
             robot.leftFrontDrive.setPower(leftFrontPower * 0.5);
-            robot.rightFrontDrive.setPower(rightFrontPower * 0.5);
+            robot.rightFrontDrive.setPower(rightFrontPower * 4);
             robot.leftBackDrive.setPower(leftBackPower * 0.5);
             robot.rightBackDrive.setPower(rightBackPower * 0.5);
+            robot.leadScrewMotor.setPower(scissorLiftPower* 0.5);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);

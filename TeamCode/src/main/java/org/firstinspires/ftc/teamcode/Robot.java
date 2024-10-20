@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -11,7 +12,7 @@ public class Robot {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
-    //public DcMotor leadScrewMotor = null;
+    public DcMotor leadScrewMotor = null;
     //public DcMotor extensionMotor = null;
     //public CRServo intakeServo = null
     //public Servo wristServo = null
@@ -46,7 +47,8 @@ public class Robot {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        //leadScrewMotor = hardwareMap.get(DcMotor.class, "lead_screw_motor");
+
+        leadScrewMotor = hardwareMap.get(DcMotor.class, "sisdrive");
         //extensionMotor = hardwareMap.get(DcMotor.class, "extension_motor");
         //intakeServo = hardwareMap.get(CRServo.class, "intake_servo");
         //wristServo = hardwareMap.get(Servo.class, "wrist_servo)
@@ -55,7 +57,8 @@ public class Robot {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-
+        leadScrewMotor.setDirection(DcMotor.Direction.FORWARD);
+leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
