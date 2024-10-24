@@ -86,8 +86,10 @@ public class Auto_12890_Intothedeep extends LinearOpMode {
         robot.strafeRight(30.5, 1);
          */
 
-        robot.spinClockwise(90,1);
-        robot.spinCounterClockwise(90,1);
+       // robot.spinClockwise(90,1);
+        //robot.spinCounterClockwise(90,1);
+
+        robot.leftFrontDrive.setPower(0.1);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

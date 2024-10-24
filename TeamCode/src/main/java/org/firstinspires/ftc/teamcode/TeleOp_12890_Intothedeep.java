@@ -63,7 +63,7 @@ import org.firstinspires.ftc.robotcore.internal.usb.EthernetOverUsbSerialNumber;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v2", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v3", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -126,10 +126,10 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
             // Send calculated power to wheels
             robot.leftFrontDrive.setPower(leftFrontPower * 0.5);
-            robot.rightFrontDrive.setPower(rightFrontPower * 4);
+            robot.rightFrontDrive.setPower(rightFrontPower * 0.5);
             robot.leftBackDrive.setPower(leftBackPower * 0.5);
             robot.rightBackDrive.setPower(rightBackPower * 0.5);
-            robot.leadScrewMotor.setPower(scissorLiftPower* 0.5);
+            robot.leadScrewMotor.setPower(scissorLiftPower * 30);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);

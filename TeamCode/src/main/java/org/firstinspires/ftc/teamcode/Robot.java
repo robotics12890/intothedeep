@@ -36,6 +36,10 @@ public class Robot {
             (DRIVE_WHEEL_DIAMETER_CENTIMETERS * Math.PI);
     static final double DRIVE_WHEEL_BASE_CENTIMETERS = 4;
     static final double DRIVE_COUNTS_PER_DEGREE = (DRIVE_COUNTS_PER_CENTIMETERS * DRIVE_WHEEL_BASE_CENTIMETERS * Math.PI)/360.0;
+    static final double LEAD_SCREW_COUNTS_PER_MOTOR_REV = 145.1;
+    static final double LEAD_SCREW_DRIVE_GEAR_REDUCTION = 14/28;  //0.48148148148
+    static final double LEAD_SCREW_DIAMETER_CENTIMETERS = 0.87;
+    static final double LEAD_SCREW_COUNTS_PER_CENTIMETERS = (LEAD_SCREW_COUNTS_PER_MOTOR_REV * LEAD_SCREW_DRIVE_GEAR_REDUCTION)/ (LEAD_SCREW_DIAMETER_CENTIMETERS * Math.PI);
 
     public HardwareMap hardwareMap;
 
@@ -58,7 +62,7 @@ public class Robot {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotor.Direction.FORWARD);
-leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -224,5 +228,27 @@ leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     public void outtake(double power){
         intakeServo.setPower(-(Math.abs(power)));
         }*/
+
+    public void scissor(double distanceCm, double power) {
+        int leadScrewTargetPosition = leadScrewMotor.getCurrentPosition() + (int) (distanceCm * LEAD_SCREW_COUNTS_PER_CENTIMETERS);
+
+        leadScrewMotor.setTargetPosition(leadScrewTargetPosition);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        leftBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        rightBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+
+
+        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
+        }
+
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+    }
 }
 
