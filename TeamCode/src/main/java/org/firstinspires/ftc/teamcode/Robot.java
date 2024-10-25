@@ -13,7 +13,8 @@ public class Robot {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor leadScrewMotor = null;
-    //public DcMotor extensionMotor = null;
+
+    public DcMotor extensionMotor = null;
     //public CRServo intakeServo = null
     //public Servo wristServo = null
     static final double MAX_DRIVE_SPEED = 1; //Is this too fast?
@@ -40,6 +41,10 @@ public class Robot {
     static final double LEAD_SCREW_DRIVE_GEAR_REDUCTION = 14/28;  //0.48148148148
     static final double LEAD_SCREW_DIAMETER_CENTIMETERS = 0.87;
     static final double LEAD_SCREW_COUNTS_PER_CENTIMETERS = (LEAD_SCREW_COUNTS_PER_MOTOR_REV * LEAD_SCREW_DRIVE_GEAR_REDUCTION)/ (LEAD_SCREW_DIAMETER_CENTIMETERS * Math.PI);
+    static final double LINEAR_SLIDE_COUNTS_PER_MOTOR_REV = (2786.2);
+    static final double LINEAR_SLIDE_DIAMETER_CENTIMETERS = (4);
+    static final double LINEAR_SLIDE_GEAR_REDUCTION = (1);
+    static final double LINEAR_SLIDE_COUNTS_PER_CENTIMETERS = (LINEAR_SLIDE_COUNTS_PER_MOTOR_REV * LINEAR_SLIDE_GEAR_REDUCTION) / (LINEAR_SLIDE_DIAMETER_CENTIMETERS * Math.PI);
 
     public HardwareMap hardwareMap;
 
@@ -234,21 +239,28 @@ public class Robot {
 
         leadScrewMotor.setTargetPosition(leadScrewTargetPosition);
 
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
-        leftBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
-        rightFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
-        rightBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
+        leadScrewMotor.setPower(Math.abs(power) * 0.6);
 
+    while (leadScrewMotor.isBusy()) {
+    }
+        leadScrewMotor.setPower(0);
+    }
 
-        while (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightFrontDrive.isBusy() && rightBackDrive.isBusy()) {
-        }
+    public void linearSlide(double distanceCm, double power) {
+    int linearSlideTargetPosition = extensionMotor.getCurrentPosition() + (int) (distanceCm * LINEAR_SLIDE_COUNTS_PER_CENTIMETERS);
 
-        leftFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        rightBackDrive.setPower(0);
+    extensionMotor.setTargetPosition(linearSlideTargetPosition);
+
+    extensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+    extensionMotor.setPower(Math.abs(power) * 0.6);
+
+    while (extensionMotor.isBusy()) {
+    }
+    extensionMotor.setPower(0);
     }
 }
+
 

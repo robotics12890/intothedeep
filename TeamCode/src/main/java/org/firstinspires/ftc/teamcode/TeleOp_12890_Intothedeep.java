@@ -169,7 +169,7 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.retractScissorLift(scissorLiftPower);
             }
 
-            if (extensionContol > 0) {
+            if (extensionControl > 0) {
                 robot.extendLinearSlide(extensionPower);
             }
 
