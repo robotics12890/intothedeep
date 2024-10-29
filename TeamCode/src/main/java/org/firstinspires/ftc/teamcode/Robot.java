@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,13 +15,12 @@ public class Robot {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor leadScrewMotor = null;
-
     public DcMotor extensionMotor = null;
-    //public CRServo intakeServo = null
-    //public Servo wristServo = null
+    public CRServo intakeServo = null;
+    public Servo wristServo = null;
     static final double MAX_DRIVE_SPEED = 1; //Is this too fast?
-    //static final double WRIST_UP_POSITION = x; (find Servo position)
-    //static final double WRIST_DOWN_POSITION = y; (find Servo position)
+    static final double WRIST_UP_POSITION = 0.1;
+    static final double WRIST_DOWN_POSITION = 0.2;
 
 
     public ElapsedTime runtime = new ElapsedTime();
@@ -57,10 +58,10 @@ public class Robot {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
 
-        leadScrewMotor = hardwareMap.get(DcMotor.class, "sisdrive");
-        //extensionMotor = hardwareMap.get(DcMotor.class, "extension_motor");
-        //intakeServo = hardwareMap.get(CRServo.class, "intake_servo");
-        //wristServo = hardwareMap.get(Servo.class, "wrist_servo)
+        leadScrewMotor = hardwareMap.get(DcMotor.class, "scissor_drive");
+        extensionMotor = hardwareMap.get(DcMotor.class, "extension_drive");
+        intakeServo = hardwareMap.get(CRServo.class, "intake");
+        wristServo = hardwareMap.get(Servo.class, "wrist");
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -68,6 +69,9 @@ public class Robot {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -203,13 +207,13 @@ public class Robot {
         spin(pivotRightDistance,power);
     }
 
-    /*public void wristUp() {
-        wristServo.setPosition(WRIST_UP_POSITION);
-    }
-
-    public void wristDown(){
-        wristServo.setPosition(WRIST_DOWN_POSITION);
-    }
+//    public void wristUp() {
+//        wristServo.setPosition(WRIST_UP_POSITION);
+//    }
+//
+//    public void wristDown(){
+//        wristServo.setPosition(WRIST_DOWN_POSITION);
+//    }
 
     public void extendScissorLift (double power){
         leadScrewMotor.setPower(Math.abs(power));
@@ -223,44 +227,45 @@ public class Robot {
         extensionMotor.setPower(Math.abs(power));
         }
 
-    public void retractLinearSlide(double power){
+    public void retractLinearSlide(double power) {
         extensionMotor.setPower(-(Math.abs(power)));
+    }
 
-    public void intake(double power){
-        intakeServo.setPower(Math.abs(power));
+        public void intake (double power){
+            intakeServo.setPower(Math.abs(power));
         }
 
-    public void outtake(double power){
-        intakeServo.setPower(-(Math.abs(power)));
-        }*/
+        public void outtake ( double power){
+            intakeServo.setPower(-(Math.abs(power)));
+        }
 
-    public void scissor(double distanceCm, double power) {
-        int leadScrewTargetPosition = leadScrewMotor.getCurrentPosition() + (int) (distanceCm * LEAD_SCREW_COUNTS_PER_CENTIMETERS);
+        public void scissor ( double distanceCm, double power){
+            int leadScrewTargetPosition = leadScrewMotor.getCurrentPosition() + (int) (distanceCm * LEAD_SCREW_COUNTS_PER_CENTIMETERS);
 
-        leadScrewMotor.setTargetPosition(leadScrewTargetPosition);
+            leadScrewMotor.setTargetPosition(leadScrewTargetPosition);
 
-        leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leadScrewMotor.setPower(Math.abs(power) * 0.6);
+            leadScrewMotor.setPower(Math.abs(power) * 0.6);
 
-    while (leadScrewMotor.isBusy()) {
+            while (leadScrewMotor.isBusy()) {
+            }
+            leadScrewMotor.setPower(0);
+        }
+
+        public void linearSlide ( double distanceCm, double power){
+            int linearSlideTargetPosition = extensionMotor.getCurrentPosition() + (int) (distanceCm * LINEAR_SLIDE_COUNTS_PER_CENTIMETERS);
+
+            extensionMotor.setTargetPosition(linearSlideTargetPosition);
+
+            extensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            extensionMotor.setPower(Math.abs(power) * 0.6);
+
+            while (extensionMotor.isBusy()) {
+            }
+            extensionMotor.setPower(0);
+        }
+
+
     }
-        leadScrewMotor.setPower(0);
-    }
-
-    public void linearSlide(double distanceCm, double power) {
-    int linearSlideTargetPosition = extensionMotor.getCurrentPosition() + (int) (distanceCm * LINEAR_SLIDE_COUNTS_PER_CENTIMETERS);
-
-    extensionMotor.setTargetPosition(linearSlideTargetPosition);
-
-    extensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-    extensionMotor.setPower(Math.abs(power) * 0.6);
-
-    while (extensionMotor.isBusy()) {
-    }
-    extensionMotor.setPower(0);
-    }
-}
-
-
