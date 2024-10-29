@@ -63,7 +63,7 @@ import org.firstinspires.ftc.robotcore.internal.usb.EthernetOverUsbSerialNumber;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v4", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v6", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -153,13 +153,13 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.spinCounterClockwise(180, 0.5);
             }
 
-//           if (wristUpButtonPressed) {
-//                robot.wristUp
-//            }
-//
-//            if (wristDownButtonPressed){
-//                robot.wristDown
-//            }
+           if (wristUpButtonPressed) {
+                robot.wristUp();
+            }
+
+            if (wristDownButtonPressed){
+                robot.wristDown();
+            }
 
             if (scissorLiftControl > 0) {
                 robot.extendScissorLift(scissorLiftPower);
@@ -181,7 +181,7 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.intake(intakePower);
             }
 
-            if (outtakeControl < 0) {
+            if (outtakeControl > 0) {
                 robot.outtake(outtakePower);
             }
         }

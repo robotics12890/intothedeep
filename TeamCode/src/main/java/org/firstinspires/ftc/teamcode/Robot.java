@@ -20,7 +20,7 @@ public class Robot {
     public Servo wristServo = null;
     static final double MAX_DRIVE_SPEED = 1; //Is this too fast?
     static final double WRIST_UP_POSITION = 0.1;
-    static final double WRIST_DOWN_POSITION = 0.2;
+    static final double WRIST_DOWN_POSITION = 0.8;
 
 
     public ElapsedTime runtime = new ElapsedTime();
@@ -69,7 +69,7 @@ public class Robot {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        extensionMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -207,13 +207,13 @@ public class Robot {
         spin(pivotRightDistance,power);
     }
 
-//    public void wristUp() {
-//        wristServo.setPosition(WRIST_UP_POSITION);
-//    }
-//
-//    public void wristDown(){
-//        wristServo.setPosition(WRIST_DOWN_POSITION);
-//    }
+    public void wristUp() {
+        wristServo.setPosition(WRIST_UP_POSITION);
+    }
+
+    public void wristDown(){
+        wristServo.setPosition(WRIST_DOWN_POSITION);
+    }
 
     public void extendScissorLift (double power){
         leadScrewMotor.setPower(Math.abs(power));
@@ -232,11 +232,11 @@ public class Robot {
     }
 
         public void intake (double power){
-            intakeServo.setPower(Math.abs(power));
+            intakeServo.setPower(-(Math.abs(power)));
         }
 
         public void outtake ( double power){
-            intakeServo.setPower(-(Math.abs(power)));
+            intakeServo.setPower(Math.abs(power));
         }
 
         public void scissor ( double distanceCm, double power){
