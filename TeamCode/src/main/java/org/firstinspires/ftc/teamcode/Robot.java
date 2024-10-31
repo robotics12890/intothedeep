@@ -207,12 +207,12 @@ public class Robot {
         spin(pivotRightDistance,power);
     }
 
-    public void wristUp() {
-        wristServo.setPosition(WRIST_UP_POSITION);
+    public void wristUp(double power) {
+        wristServo.setPosition(power);
     }
 
-    public void wristDown(){
-        wristServo.setPosition(WRIST_DOWN_POSITION);
+    public void wristDown(double power){
+        wristServo.setPosition(power);
     }
 
     public void extendScissorLift (double power){
@@ -232,10 +232,11 @@ public class Robot {
     }
 
         public void intake (double power){
-            intakeServo.setPower(-(Math.abs(power)));
+
+        intakeServo.setPower(-(Math.abs(power)));
         }
 
-        public void outtake ( double power){
+        public void outtake (double power){
             intakeServo.setPower(Math.abs(power));
         }
 

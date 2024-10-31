@@ -63,7 +63,7 @@ import org.firstinspires.ftc.robotcore.internal.usb.EthernetOverUsbSerialNumber;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v6", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v11", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -92,13 +92,14 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             boolean spinCounterclockwise90ButtonPressed = gamepad1.dpad_left;
             boolean spinClockwise180ButtonPressed = gamepad1.dpad_up;
             boolean spinCounterclockwise180ButtonPressed = gamepad1.dpad_down;
+            boolean wristNeutralButtonPressed = gamepad2.x;
 
             double scissorLiftControl = gamepad2.left_stick_y;
             double extensionControl = gamepad2.right_stick_y;
-            double intakeControl = gamepad2.right_trigger;
-            double outtakeControl = gamepad2.left_trigger;
-            boolean wristUpButtonPressed = gamepad2.right_bumper;
-            boolean wristDownButtonPressed = gamepad2.left_bumper;
+            boolean intakeButtonPressed = gamepad2.right_bumper;
+            boolean outtakeButtonPressed = gamepad2.left_bumper;
+            double wristUpControl = gamepad2.right_trigger;
+            double wristDownControl = gamepad2.left_trigger;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;
@@ -107,8 +108,8 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double rightBackPower = axial + lateral - yaw;
             double scissorLiftPower = scissorLiftControl;
             double extensionPower = extensionControl;
-            double intakePower = intakeControl; //(does this work for continuous Servos?)
-            double outtakePower = outtakeControl;
+            double wristUpPower = wristUpControl;
+            double wristDownPower = wristDownControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -153,13 +154,16 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.spinCounterClockwise(180, 0.5);
             }
 
-           if (wristUpButtonPressed) {
-                robot.wristUp();
+           if (wristUpControl > 0) {
+               robot.wristUp(wristUpPower);
+           }
+
+            if (wristDownControl > 0){
+                robot.wristDown(wristDownPower);
             }
 
-            if (wristDownButtonPressed){
-                robot.wristDown();
-            }
+            if (wristNeutralButtonPressed)
+                robot.wristServo.setPosition(2);
 
             if (scissorLiftControl > 0) {
                 robot.extendScissorLift(scissorLiftPower);
@@ -177,12 +181,12 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.retractLinearSlide(extensionPower);
             }
 
-            if (intakeControl > 0) {
-                robot.intake(intakePower);
+            if (intakeButtonPressed) {
+                robot.intake(0.5);
             }
 
-            if (outtakeControl > 0) {
-                robot.outtake(outtakePower);
+            if (outtakeButtonPressed) {
+                robot.outtake(0.5);
             }
         }
     }
