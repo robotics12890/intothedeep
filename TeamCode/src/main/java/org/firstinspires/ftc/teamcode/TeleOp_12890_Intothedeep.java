@@ -63,7 +63,7 @@ import org.firstinspires.ftc.robotcore.internal.usb.EthernetOverUsbSerialNumber;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v11", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v16", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -98,8 +98,8 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double extensionControl = gamepad2.right_stick_y;
             boolean intakeButtonPressed = gamepad2.right_bumper;
             boolean outtakeButtonPressed = gamepad2.left_bumper;
-            double wristUpControl = gamepad2.right_trigger;
-            double wristDownControl = gamepad2.left_trigger;
+            boolean wristUpButtonPressed = gamepad2.y;
+            boolean wristDownButtonPressed = gamepad2.a;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;
@@ -108,8 +108,6 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double rightBackPower = axial + lateral - yaw;
             double scissorLiftPower = scissorLiftControl;
             double extensionPower = extensionControl;
-            double wristUpPower = wristUpControl;
-            double wristDownPower = wristDownControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -154,16 +152,18 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.spinCounterClockwise(180, 0.5);
             }
 
-           if (wristUpControl > 0) {
-               robot.wristUp(wristUpPower);
+           if (wristUpButtonPressed) {
+               robot.wristDown();
+               robot.wristUp();
            }
 
-            if (wristDownControl > 0){
-                robot.wristDown(wristDownPower);
+            if (wristDownButtonPressed){
+                robot.wristUp();
+                robot.wristDown();
             }
 
             if (wristNeutralButtonPressed)
-                robot.wristServo.setPosition(2);
+                robot.wristServo.setPosition(1);
 
             if (scissorLiftControl > 0) {
                 robot.extendScissorLift(scissorLiftPower);

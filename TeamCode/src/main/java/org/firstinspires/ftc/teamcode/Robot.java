@@ -19,8 +19,8 @@ public class Robot {
     public CRServo intakeServo = null;
     public Servo wristServo = null;
     static final double MAX_DRIVE_SPEED = 1; //Is this too fast?
-    static final double WRIST_UP_POSITION = 0.1;
-    static final double WRIST_DOWN_POSITION = 0.8;
+    static final double WRIST_UP_POSITION = 0;
+    static final double WRIST_DOWN_POSITION = 0.6;
 
 
     public ElapsedTime runtime = new ElapsedTime();
@@ -207,12 +207,12 @@ public class Robot {
         spin(pivotRightDistance,power);
     }
 
-    public void wristUp(double power) {
-        wristServo.setPosition(power);
+    public void wristUp() {
+        wristServo.setPosition(Servo.MIN_POSITION);
     }
 
-    public void wristDown(double power){
-        wristServo.setPosition(power);
+    public void wristDown(){
+        wristServo.setPosition(WRIST_DOWN_POSITION);
     }
 
     public void extendScissorLift (double power){
@@ -224,10 +224,12 @@ public class Robot {
 
     }
     public void extendLinearSlide (double power){
+
         extensionMotor.setPower(Math.abs(power));
         }
 
     public void retractLinearSlide(double power) {
+
         extensionMotor.setPower(-(Math.abs(power)));
     }
 
