@@ -2,21 +2,21 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Park A4/F3 to A1/F6 v2", group = "Robot")
-public class MVP_Park_A3_1_F3_6_Auto extends LinearOpMode {
+@Autonomous (name = "A5/F2 to A2/F5 v2", group = "Robot")
+public class a5_2_f2_5 extends LinearOpMode {
 
     Robot robot = new Robot();
 
-    public void runOpMode(){
+    public void runOpMode() {
         robot.init(hardwareMap);
         robot.wristNeutral();
         waitForStart();
 
         robot.driveForward(7,1);
-        robot.strafeLeft(120,1);
-        robot.strafeRight(120,1);
+        robot.strafeLeft(60,1);
+        robot.strafeRight(60,1);
         robot.strafeRight(180,1);
-        //this starts in a3/f3 and strafes into a6/f1 then a1/f6 after driving slightly forward to avoid scraping the wall.
+        //This strafes from a5/f2 to a6/f1 then a2/f5 after driving slightly forward to avoid scraping the wall.
         //3 tiles
     }
 }

@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v27", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v30", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -106,7 +106,7 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
-            double scissorLiftPower = scissorLiftControl;
+//            double scissorLiftPower = scissorLiftControl;
             double extensionPower = extensionControl;
             double intakePower = intakeControl;
             double outtakePower = outtakeControl;
@@ -130,7 +130,6 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             robot.rightFrontDrive.setPower(rightFrontPower * 0.5);
             robot.leftBackDrive.setPower(leftBackPower * 0.5);
             robot.rightBackDrive.setPower(rightBackPower * 0.5);
-            robot.leadScrewMotor.setPower(scissorLiftPower * 30);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);
@@ -168,11 +167,17 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.wristNeutral();
 
             if (scissorLiftControl > 0) {
-                robot.extendScissorLift(scissorLiftPower);
+                robot.extendScissorLift(1);
+            }
+            else {
+                robot.leadScrewMotor.setPower(0);
             }
 
             if (scissorLiftControl < 0 ) {
-                robot.retractScissorLift(scissorLiftPower);
+                robot.retractScissorLift(1);
+            }
+            else {
+                robot.leadScrewMotor.setPower(0);
             }
 
             if (extensionControl > 0) {
