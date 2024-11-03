@@ -33,8 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.internal.usb.EthernetOverUsbSerialNumber;
-
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -63,7 +61,7 @@ import org.firstinspires.ftc.robotcore.internal.usb.EthernetOverUsbSerialNumber;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v16", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v27", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -92,14 +90,16 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             boolean spinCounterclockwise90ButtonPressed = gamepad1.dpad_left;
             boolean spinClockwise180ButtonPressed = gamepad1.dpad_up;
             boolean spinCounterclockwise180ButtonPressed = gamepad1.dpad_down;
-            boolean wristNeutralButtonPressed = gamepad2.x;
+            boolean wristNeutralButtonPressed = gamepad2.dpad_down;
 
             double scissorLiftControl = gamepad2.left_stick_y;
             double extensionControl = gamepad2.right_stick_y;
-            boolean intakeButtonPressed = gamepad2.right_bumper;
-            boolean outtakeButtonPressed = gamepad2.left_bumper;
-            boolean wristUpButtonPressed = gamepad2.y;
-            boolean wristDownButtonPressed = gamepad2.a;
+            double intakeControl = gamepad2.right_trigger;
+            double outtakeControl = gamepad2.left_trigger;
+            boolean wristUpButtonPressed = gamepad2.dpad_up;
+            boolean wristDownButtonPressed = gamepad2.dpad_right;
+            boolean tiltUpButtonPressed = gamepad2.right_bumper;
+            boolean tiltDownButtonPressed = gamepad2.left_bumper;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;
@@ -108,6 +108,8 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double rightBackPower = axial + lateral - yaw;
             double scissorLiftPower = scissorLiftControl;
             double extensionPower = extensionControl;
+            double intakePower = intakeControl;
+            double outtakePower = outtakeControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -163,7 +165,7 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             }
 
             if (wristNeutralButtonPressed)
-                robot.wristServo.setPosition(1);
+                robot.wristNeutral();
 
             if (scissorLiftControl > 0) {
                 robot.extendScissorLift(scissorLiftPower);
@@ -175,18 +177,33 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
             if (extensionControl > 0) {
                 robot.extendLinearSlide(extensionPower);
+            } else {
+                robot.extendLinearSlide(0);
             }
 
             if (extensionControl < 0) {
                 robot.retractLinearSlide(extensionPower);
+            } else {
+                robot.retractScissorLift(0);
             }
 
-            if (intakeButtonPressed) {
-                robot.intake(0.5);
+            if (intakeControl > 0) {
+                robot.intake(intakePower);
+            } else {
+                robot.intake(0);
             }
 
-            if (outtakeButtonPressed) {
-                robot.outtake(0.5);
+            if (outtakeControl > 0) {
+                robot.outtake(outtakePower);
+            } else {
+                robot.outtake(0);
+            }
+
+            if (tiltUpButtonPressed) {
+                robot.tilterUp();
+            }
+            if (tiltDownButtonPressed) {
+                robot.tilterDown();
             }
         }
     }

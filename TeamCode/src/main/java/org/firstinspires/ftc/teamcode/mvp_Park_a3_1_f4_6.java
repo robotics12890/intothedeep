@@ -2,17 +2,20 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Robot: mvp Park a3/f4 to a1/f6 v2", group = "Robot")
+@Autonomous(name = "Robot: mvp Park a3/f4 to a1/f6 v3", group = "Robot")
 public class mvp_Park_a3_1_f4_6 extends LinearOpMode {
     Robot robot = new Robot();
 
     public void runOpMode() {
         robot.init(hardwareMap);
+        robot.wristNeutral();
         waitForStart();
 
         robot.driveForward(7,1);
+        robot.strafeLeft(180,1);
+        robot.strafeRight(180,1);
         robot.strafeRight(120, 1);
-        // this goes from a3/f4 to f6/a1 by strafing after driving slightly forward to avoid scraping the wall.
+        // this goes from a3/f4 to f1/a6 then f6/a1 by strafing after driving slightly forward to avoid scraping the wall.
         //2 tiles
     }
 }

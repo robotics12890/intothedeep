@@ -76,7 +76,7 @@ public class Auto_12890_Intothedeep_Test extends LinearOpMode {
                 robot.leftBackDrive.getCurrentPosition(),
                 robot.rightBackDrive.getCurrentPosition());
         telemetry.update();
-
+        robot.wristNeutral();
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 

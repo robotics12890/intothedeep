@@ -18,9 +18,9 @@ public class Robot {
     public DcMotor extensionMotor = null;
     public CRServo intakeServo = null;
     public Servo wristServo = null;
+    public Servo tilterServo = null;
     static final double MAX_DRIVE_SPEED = 1; //Is this too fast?
-    static final double WRIST_UP_POSITION = 0;
-    static final double WRIST_DOWN_POSITION = 0.6;
+    static final double WRIST_DOWN_POSITION = 0.3;
 
 
     public ElapsedTime runtime = new ElapsedTime();
@@ -62,6 +62,7 @@ public class Robot {
         extensionMotor = hardwareMap.get(DcMotor.class, "extension_drive");
         intakeServo = hardwareMap.get(CRServo.class, "intake");
         wristServo = hardwareMap.get(Servo.class, "wrist");
+        tilterServo = hardwareMap.get(Servo.class, "tilter");
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -69,7 +70,7 @@ public class Robot {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        extensionMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -208,9 +209,12 @@ public class Robot {
     }
 
     public void wristUp() {
-        wristServo.setPosition(Servo.MIN_POSITION);
+        wristServo.setPosition(Servo.MAX_POSITION);
     }
 
+    public void wristNeutral () {
+        wristServo.setPosition(Servo.MIN_POSITION);
+    }
     public void wristDown(){
         wristServo.setPosition(WRIST_DOWN_POSITION);
     }
@@ -240,6 +244,13 @@ public class Robot {
 
         public void outtake (double power){
             intakeServo.setPower(Math.abs(power));
+        }
+        public void tilterUp () {
+        tilterServo.setPosition(0.75);
+        }
+
+        public void tilterDown () {
+        tilterServo.setPosition(0);
         }
 
         public void scissor ( double distanceCm, double power){
