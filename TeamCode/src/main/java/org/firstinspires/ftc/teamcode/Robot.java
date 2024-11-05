@@ -68,8 +68,7 @@ public class Robot {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        leadScrewMotor.setDirection(DcMotor.Direction.FORWARD);
-        leadScrewMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leadScrewMotor.setDirection(DcMotor.Direction.REVERSE);
         extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
@@ -238,12 +237,13 @@ public class Robot {
     }
 
         public void intake (double power){
-
-        intakeServo.setPower(-(Math.abs(power)));
+//        intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeServo.setPower(power);
         }
 
         public void outtake (double power){
-            intakeServo.setPower(Math.abs(power));
+            intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
+            intakeServo.setPower(power);
         }
         public void tilterUp () {
         tilterServo.setPosition(0.75);

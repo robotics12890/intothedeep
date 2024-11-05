@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -61,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v30", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v43", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -106,10 +107,7 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
             double rightBackPower = axial + lateral - yaw;
-//            double scissorLiftPower = scissorLiftControl;
             double extensionPower = extensionControl;
-            double intakePower = intakeControl;
-            double outtakePower = outtakeControl;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -137,28 +135,28 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
 
-            if (spinClockwise90ButtonPressed){
-                robot.spinClockwise(90,0.5);
+            if (spinClockwise90ButtonPressed) {
+                robot.spinClockwise(90, 0.5);
             }
 
             if (spinCounterclockwise90ButtonPressed) {
-                robot.spinCounterClockwise(90,0.5);
+                robot.spinCounterClockwise(90, 0.5);
             }
 
             if (spinClockwise180ButtonPressed) {
-                robot.spinClockwise(180,0.5);
+                robot.spinClockwise(180, 0.5);
             }
 
             if (spinCounterclockwise180ButtonPressed) {
                 robot.spinCounterClockwise(180, 0.5);
             }
 
-           if (wristUpButtonPressed) {
-               robot.wristDown();
-               robot.wristUp();
-           }
+            if (wristUpButtonPressed) {
+                robot.wristDown();
+                robot.wristUp();
+            }
 
-            if (wristDownButtonPressed){
+            if (wristDownButtonPressed) {
                 robot.wristUp();
                 robot.wristDown();
             }
@@ -168,15 +166,13 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
             if (scissorLiftControl > 0) {
                 robot.extendScissorLift(1);
-            }
-            else {
+            } else {
                 robot.leadScrewMotor.setPower(0);
             }
 
-            if (scissorLiftControl < 0 ) {
+            if (scissorLiftControl < 0) {
                 robot.retractScissorLift(1);
-            }
-            else {
+            } else {
                 robot.leadScrewMotor.setPower(0);
             }
 
@@ -193,16 +189,19 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             }
 
             if (intakeControl > 0) {
-                robot.intake(intakePower);
+                robot.intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
+                robot.intakeServo.setPower(intakeControl);
+            } else if (outtakeControl > 0) {
+                robot.outtake(outtakeControl);
             } else {
-                robot.intake(0);
+                robot.intakeServo.setPower(0);
             }
 
-            if (outtakeControl > 0) {
-                robot.outtake(outtakePower);
-            } else {
-                robot.outtake(0);
-            }
+//            if (outtakeControl > 0) {
+//                robot.outtake(outtakeControl);
+//            } else {
+//                robot.outtake(0);
+//            }
 
             if (tiltUpButtonPressed) {
                 robot.tilterUp();
