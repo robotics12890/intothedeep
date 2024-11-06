@@ -69,7 +69,7 @@ public class Robot {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotor.Direction.REVERSE);
-        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        extensionMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -235,22 +235,22 @@ public class Robot {
 
         extensionMotor.setPower(-(Math.abs(power)));
     }
-
-        public void intake (double power){
-//        intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeServo.setPower(power);
-        }
-
-        public void outtake (double power){
-            intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
-            intakeServo.setPower(power);
-        }
+//
+//        public void intake (double power){
+////        intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
+//        intakeServo.setPower(power);
+//        }
+//
+//        public void outtake (double power){
+////            intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
+//            intakeServo.setPower(power);
+//        }
         public void tilterUp () {
-        tilterServo.setPosition(0.75);
+        tilterServo.setPosition(1);
         }
 
         public void tilterDown () {
-        tilterServo.setPosition(0);
+        tilterServo.setPosition(0.1);
         }
 
         public void scissor ( double distanceCm, double power){

@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v43", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v52", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -166,33 +166,38 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
             if (scissorLiftControl > 0) {
                 robot.extendScissorLift(1);
-            } else {
-                robot.leadScrewMotor.setPower(0);
-            }
-
-            if (scissorLiftControl < 0) {
+            } else if (scissorLiftControl < 0) {
                 robot.retractScissorLift(1);
             } else {
                 robot.leadScrewMotor.setPower(0);
             }
 
+//            if (scissorLiftControl < 0) {
+//                robot.retractScissorLift(1);
+//            } else {
+//                robot.leadScrewMotor.setPower(0);
+//            }
+
             if (extensionControl > 0) {
                 robot.extendLinearSlide(extensionPower);
-            } else {
-                robot.extendLinearSlide(0);
+            } else if (extensionControl < 0){
+                robot.retractLinearSlide(extensionPower);
+            }else {
+                robot.extensionMotor.setPower(0);
             }
 
-            if (extensionControl < 0) {
-                robot.retractLinearSlide(extensionPower);
-            } else {
-                robot.retractScissorLift(0);
-            }
+//            if (extensionControl < 0) {
+//                robot.retractLinearSlide(extensionPower);
+//            } else {
+//                robot.retractLinearSlide(0);
+//            }
 
             if (intakeControl > 0) {
                 robot.intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
-                robot.intakeServo.setPower(intakeControl);
+                robot.intakeServo.setPower(1);
             } else if (outtakeControl > 0) {
-                robot.outtake(outtakeControl);
+                robot.intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
+                robot.intakeServo.setPower(1);
             } else {
                 robot.intakeServo.setPower(0);
             }
