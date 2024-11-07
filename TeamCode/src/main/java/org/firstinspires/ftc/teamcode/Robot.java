@@ -46,6 +46,7 @@ public class Robot {
     static final double LINEAR_SLIDE_DIAMETER_CENTIMETERS = (4);
     static final double LINEAR_SLIDE_GEAR_REDUCTION = (1);
     static final double LINEAR_SLIDE_COUNTS_PER_CENTIMETERS = (LINEAR_SLIDE_COUNTS_PER_MOTOR_REV * LINEAR_SLIDE_GEAR_REDUCTION) / (LINEAR_SLIDE_DIAMETER_CENTIMETERS * Math.PI);
+    static final double TILT_DOWN_POSITION = 0.1;
 
     public HardwareMap hardwareMap;
 
@@ -210,7 +211,6 @@ public class Robot {
     public void wristUp() {
         wristServo.setPosition(Servo.MAX_POSITION);
     }
-
     public void wristNeutral () {
         wristServo.setPosition(Servo.MIN_POSITION);
     }
@@ -227,30 +227,28 @@ public class Robot {
 
     }
     public void extendLinearSlide (double power){
-
         extensionMotor.setPower(Math.abs(power));
         }
 
     public void retractLinearSlide(double power) {
-
         extensionMotor.setPower(-(Math.abs(power)));
     }
-//
-//        public void intake (double power){
-////        intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
-//        intakeServo.setPower(power);
-//        }
+
+//  public void intake (double power){
+//       intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
+//       intakeServo.setPower(power);
+//  }
 //
 //        public void outtake (double power){
-////            intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
+//         intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
 //            intakeServo.setPower(power);
 //        }
-        public void tilterUp () {
-        tilterServo.setPosition(1);
+    public void tilterUp () {
+        tilterServo.setPosition(Servo.MAX_POSITION);
         }
 
-        public void tilterDown () {
-        tilterServo.setPosition(0.1);
+    public void tilterDown () {
+        tilterServo.setPosition(TILT_DOWN_POSITION);
         }
 
         public void scissor ( double distanceCm, double power){
@@ -280,6 +278,4 @@ public class Robot {
             }
             extensionMotor.setPower(0);
         }
-
-
     }

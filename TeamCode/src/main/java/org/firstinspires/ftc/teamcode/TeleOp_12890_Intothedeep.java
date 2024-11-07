@@ -62,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v52", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v53", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -172,12 +172,6 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.leadScrewMotor.setPower(0);
             }
 
-//            if (scissorLiftControl < 0) {
-//                robot.retractScissorLift(1);
-//            } else {
-//                robot.leadScrewMotor.setPower(0);
-//            }
-
             if (extensionControl > 0) {
                 robot.extendLinearSlide(extensionPower);
             } else if (extensionControl < 0){
@@ -185,12 +179,6 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             }else {
                 robot.extensionMotor.setPower(0);
             }
-
-//            if (extensionControl < 0) {
-//                robot.retractLinearSlide(extensionPower);
-//            } else {
-//                robot.retractLinearSlide(0);
-//            }
 
             if (intakeControl > 0) {
                 robot.intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -201,12 +189,6 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             } else {
                 robot.intakeServo.setPower(0);
             }
-
-//            if (outtakeControl > 0) {
-//                robot.outtake(outtakeControl);
-//            } else {
-//                robot.outtake(0);
-//            }
 
             if (tiltUpButtonPressed) {
                 robot.tilterUp();

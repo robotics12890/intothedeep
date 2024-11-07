@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "Park A4/F3 to A1/F6 Park v1", group = "Robot")
-public class Park_A3_1_F3_6 extends LinearOpMode {
+@Autonomous (name = "Park A4/F3 to A2/F5 v1")
+public class Park_A4_2_F3_5 extends LinearOpMode {
 
     Robot robot = new Robot();
 
@@ -13,9 +13,9 @@ public class Park_A3_1_F3_6 extends LinearOpMode {
         waitForStart();
 
         robot.driveForward(7,1);
-        robot.strafeRight(180,1);
-        //this starts in a3/f3 and strafes into a1/f6 after driving slightly forward to avoid scraping the wall.
-        //3 tiles
+        robot.strafeRight(120,1);
+        //strafes from a4/f3 to a6/f1 then a2/f5 after driving slightly forward to avoid scraping the wall.
+        // 2 tiles
     }
 }
 
