@@ -251,19 +251,19 @@ public class Robot {
         tilterServo.setPosition(TILT_DOWN_POSITION);
         }
 
-        public void scissor ( double distanceCm, double power){
-            int leadScrewTargetPosition = leadScrewMotor.getCurrentPosition() + (int) (distanceCm * LEAD_SCREW_COUNTS_PER_CENTIMETERS);
-
-            leadScrewMotor.setTargetPosition(leadScrewTargetPosition);
-
-            leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            leadScrewMotor.setPower(Math.abs(power) * 0.6);
-
-            while (leadScrewMotor.isBusy()) {
-            }
-            leadScrewMotor.setPower(0);
-        }
+//        public void scissor ( double distanceCm, double power){
+//            int leadScrewTargetPosition = leadScrewMotor.getCurrentPosition() + (int) (distanceCm * LEAD_SCREW_COUNTS_PER_CENTIMETERS);
+//
+//            leadScrewMotor.setTargetPosition(leadScrewTargetPosition);
+//
+//            leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//            leadScrewMotor.setPower(Math.abs(power) * 0.6);
+//
+//            while (leadScrewMotor.isBusy()) {
+//            }
+//            leadScrewMotor.setPower(0);
+//        }
 
         public void linearSlide ( double distanceCm, double power){
             int linearSlideTargetPosition = extensionMotor.getCurrentPosition() + (int) (distanceCm * LINEAR_SLIDE_COUNTS_PER_CENTIMETERS);

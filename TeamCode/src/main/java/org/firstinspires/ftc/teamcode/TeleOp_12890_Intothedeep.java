@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -62,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v53", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v65", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -73,6 +74,9 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+
+        robot.leadScrewMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leadScrewMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -133,6 +137,8 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime);
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("scissor ", robot.leadScrewMotor.getCurrentPosition());
+            telemetry.addData("Extension ",robot.extensionMotor.getCurrentPosition());
             telemetry.update();
 
             if (spinClockwise90ButtonPressed) {
@@ -164,13 +170,16 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             if (wristNeutralButtonPressed)
                 robot.wristNeutral();
 
-            if (scissorLiftControl > 0) {
-                robot.extendScissorLift(1);
-            } else if (scissorLiftControl < 0) {
-                robot.retractScissorLift(1);
-            } else {
-                robot.leadScrewMotor.setPower(0);
-            }
+            robot.leadScrewMotor.setPower(0);
+            robot.leadScrewMotor.setPower(scissorLiftControl);
+
+//            if (scissorLiftControl > 0 && robot.leadScrewMotor.getCurrentPosition() > -7860) {
+//                robot.leadScrewMotor.setPower(scissorLiftControl);
+//            } else if  (scissorLiftControl < 0)
+//                robot.leadScrewMotor.setPower(scissorLiftControl);
+//            else {
+//                robot.leadScrewMotor.setPower(0);
+//            }
 
             if (extensionControl > 0) {
                 robot.extendLinearSlide(extensionPower);
