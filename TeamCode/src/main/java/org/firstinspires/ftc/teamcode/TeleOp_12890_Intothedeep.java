@@ -128,10 +128,10 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             }
 
             // Send calculated power to wheels
-            robot.leftFrontDrive.setPower(leftFrontPower * 0.5);
-            robot.rightFrontDrive.setPower(rightFrontPower * 0.5);
-            robot.leftBackDrive.setPower(leftBackPower * 0.5);
-            robot.rightBackDrive.setPower(rightBackPower * 0.5);
+            robot.leftFrontDrive.setPower(leftFrontPower * 0.75);
+            robot.rightFrontDrive.setPower(rightFrontPower * 0.75);
+            robot.leftBackDrive.setPower(leftBackPower * 0.75);
+            robot.rightBackDrive.setPower(rightBackPower * 0.75);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime);

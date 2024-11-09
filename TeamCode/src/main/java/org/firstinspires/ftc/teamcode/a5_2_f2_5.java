@@ -16,6 +16,7 @@ public class a5_2_f2_5 extends LinearOpMode {
         robot.strafeLeft(60,0.5);
         robot.strafeRight(60,0.5);
         robot.strafeRight(180,0.5);
+        robot.driveBackward(15,0.5);
         //This strafes from a5/f2 to a6/f1 then a2/f5 after driving slightly forward to avoid scraping the wall.
         //3 tiles
     }
