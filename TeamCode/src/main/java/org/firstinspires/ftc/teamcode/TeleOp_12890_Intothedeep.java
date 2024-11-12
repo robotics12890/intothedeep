@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v65", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v66", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -103,8 +103,8 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             double outtakeControl = gamepad2.left_trigger;
             boolean wristUpButtonPressed = gamepad2.dpad_up;
             boolean wristDownButtonPressed = gamepad2.dpad_right;
-            boolean tiltUpButtonPressed = gamepad2.right_bumper;
-            boolean tiltDownButtonPressed = gamepad2.left_bumper;
+//            boolean tiltUpButtonPressed = gamepad2.right_bumper;
+//            boolean tiltDownButtonPressed = gamepad2.left_bumper;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             double leftFrontPower = axial + lateral + yaw;
@@ -160,11 +160,13 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             if (wristUpButtonPressed) {
                 robot.wristDown();
                 robot.wristUp();
+                robot.tilterUp();
             }
 
             if (wristDownButtonPressed) {
                 robot.wristUp();
                 robot.wristDown();
+                robot.tilterDown();
             }
 
             if (wristNeutralButtonPressed)
@@ -199,12 +201,12 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
                 robot.intakeServo.setPower(0);
             }
 
-            if (tiltUpButtonPressed) {
-                robot.tilterUp();
-            }
-            if (tiltDownButtonPressed) {
-                robot.tilterDown();
-            }
+//            if (tiltUpButtonPressed) {
+//                robot.tilterUp();
+//            }
+//            if (tiltDownButtonPressed) {
+//                robot.tilterDown();
+//            }
         }
     }
 }

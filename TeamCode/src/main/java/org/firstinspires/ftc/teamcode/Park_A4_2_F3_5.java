@@ -13,7 +13,7 @@ public class Park_A4_2_F3_5 extends LinearOpMode {
         waitForStart();
 
         robot.driveForward(20,0.5);
-        robot.strafeRight(120,0.5);
+        robot.strafeRight(150,0.5);
         robot.driveBackward(15,0.5);
         //strafes from a4/f3 to a6/f1 then a2/f5 after driving slightly forward to avoid scraping the wall.
         // 2 tiles
