@@ -142,6 +142,12 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        double max = 0;
+        max = Math.max(max, power);
+        if (max > 1.2) {
+            power /= max;
+        }
+
         leftFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
         leftBackDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
         rightFrontDrive.setPower(Math.abs(power) * MAX_DRIVE_SPEED);
@@ -200,7 +206,7 @@ public class Robot {
 
     public void spinCounterClockwise(double degrees, double power) {
         double pivotLeftDistance = (Math.abs(degrees));
-        strafe(pivotLeftDistance, power);
+        spin(pivotLeftDistance, power);
     }
 
     public void spinClockwise(double degrees, double power) {
