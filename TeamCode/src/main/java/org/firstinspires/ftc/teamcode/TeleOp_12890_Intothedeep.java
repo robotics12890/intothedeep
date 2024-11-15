@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "TeleOp_12890_Intothedeep v70", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_12890_Intothedeep v73", group = "Linear OpMode")
 public class TeleOp_12890_Intothedeep extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -172,17 +172,26 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             if (wristNeutralButtonPressed)
                 robot.wristNeutral();
 
-            robot.leadScrewMotor.setPower(0);
-            robot.leadScrewMotor.setPower(scissorLiftControl);
+            if(robot.leadScrewMotor.getCurrentPosition() <= -7841) {
+                telemetry.addData("You done exceeded your scissor limit", robot.leadScrewMotor.getCurrentPosition());
+                telemetry.update();
+            }
 
-            if (scissorLiftControl > 0 && robot.leadScrewMotor.getCurrentPosition() > -1000) {
-                robot.leadScrewMotor.setPower(scissorLiftControl);
+//            if(robot.leadScrewMotor.getCurrentPosition() < -7841) {
+//                robot.leadScrewMotor.setPower(0);
+//            }
+
+             if (scissorLiftControl > 0 && robot.leadScrewMotor.getCurrentPosition() >= -7841) {
+                robot.leadScrewMotor.setPower(Math.abs(scissorLiftControl));
             } else if  (scissorLiftControl < 0)
-                robot.leadScrewMotor.setPower(scissorLiftControl);
+                robot.leadScrewMotor.setPower(-(Math.abs(scissorLiftControl)));
             else {
                 robot.leadScrewMotor.setPower(0);
             }
 
+//            if(scissorLiftControl != 0)
+//                robot.leadScrewMotor.setPower(scissorLiftControl);
+//you may need to set the run-mode
             if (extensionControl > 0) {
                 robot.extendLinearSlide(extensionPower);
             } else if (extensionControl < 0){
@@ -206,6 +215,9 @@ public class TeleOp_12890_Intothedeep extends LinearOpMode {
             }
             if (tiltDownButtonPressed) {
                 robot.tilterDown();
+            }
+            if(gamepad1.back){
+                robot.leadScrewMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
         }
     }
