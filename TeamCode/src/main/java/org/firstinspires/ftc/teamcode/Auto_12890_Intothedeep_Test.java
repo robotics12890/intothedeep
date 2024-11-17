@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /*
@@ -59,7 +60,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Robot: Auto Drive By Encoder v32", group = "Robot")
+@Autonomous(name = "Robot: Auto Drive By Encoder v40", group = "Robot")
 
 public class Auto_12890_Intothedeep_Test extends LinearOpMode {
 
@@ -76,10 +77,19 @@ public class Auto_12890_Intothedeep_Test extends LinearOpMode {
                 robot.leftBackDrive.getCurrentPosition(),
                 robot.rightBackDrive.getCurrentPosition());
         telemetry.update();
-        robot.wristNeutral();
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+       robot.strafeRight(100,0.5);
 
+        telemetry.addData("Starting at", "%7d :%7d :%7d :%7d",
+                robot.leftFrontDrive.getCurrentPosition(),
+                robot.rightFrontDrive.getCurrentPosition(),
+                robot.leftBackDrive.getCurrentPosition(),
+                robot.rightBackDrive.getCurrentPosition());
+        telemetry.update();
+
+        sleep(5000);
         /* robot.driveForward(30.5, 1);
         robot.strafeLeft(30.5, 1);
         robot.driveBackward(30.5, 1);
@@ -91,15 +101,19 @@ public class Auto_12890_Intothedeep_Test extends LinearOpMode {
 
 //        robot.leftFrontDrive.setPower(0.1);
 
-        robot.strafeRight(50, 0.25);
-        sleep(3000);
-        robot.strafeLeft(50, 0.25);
-        sleep(3000);
-        robot.strafeRight(50, 0.25);
-        sleep(3000);
-        robot.strafeLeft(50, 0.25);
+//        robot.strafeRight(50, 0.25);
+//        sleep(3000);
+//        robot.strafeLeft(50, 0.25);
+//        sleep(3000);
+//        robot.strafeRight(50, 0.25);
+//        sleep(3000);
+//        robot.strafeLeft(50, 0.25);
+//
+//        robot.leadScrewMotor.setTargetPosition(-1000);
+//        robot.leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.leadScrewMotor.setPower(0.5);
 
-        telemetry.addData("Path", "Complete");
+        telemetry.addData("Position", robot.leadScrewMotor.getCurrentPosition());
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
