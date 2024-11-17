@@ -59,9 +59,10 @@ public class Low_Basket_Auto extends LinearOpMode {
 //        robot.leadScrewMotor.setTargetPosition(-3276);
 //        robot.leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //        robot.leadScrewMotor.setPower(0.5);
+        robot.extensionMotor.setPower(0.5);
         robot.extensionMotor.setTargetPosition(3850);
         robot.extensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.extensionMotor.setPower(0.5);
+
 //        robot.wristUp();
 //        robot.tilterUp();
 //        robot.driveForward(10, 0.5);
