@@ -35,7 +35,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "TeleOp_RESET_v1", group = "Linear OpMode")
+@TeleOp(name = "TeleOp_RESET_1", group = "Linear OpMode")
 public class TeleOp_RESET extends LinearOpMode {
 
     Robot robot = new Robot();

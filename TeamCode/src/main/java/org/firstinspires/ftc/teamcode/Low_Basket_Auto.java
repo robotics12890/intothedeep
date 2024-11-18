@@ -31,7 +31,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Robot: Low basket auto v5", group = "Robot")
+@Autonomous(name = "Robot: Low basket auto v7", group = "Robot")
 
 public class Low_Basket_Auto extends LinearOpMode {
 
@@ -59,10 +59,15 @@ public class Low_Basket_Auto extends LinearOpMode {
 //        robot.leadScrewMotor.setTargetPosition(-3276);
 //        robot.leadScrewMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //        robot.leadScrewMotor.setPower(0.5);
-        robot.extensionMotor.setPower(0.5);
+
         robot.extensionMotor.setTargetPosition(3850);
         robot.extensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.extensionMotor.setPower(0.5);
 
+        telemetry.addData("Position",robot.leadScrewMotor.getCurrentPosition());
+        telemetry.update();
+
+        sleep(10000);
 //        robot.wristUp();
 //        robot.tilterUp();
 //        robot.driveForward(10, 0.5);

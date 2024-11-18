@@ -70,7 +70,7 @@ public class Robot {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leadScrewMotor.setDirection(DcMotor.Direction.REVERSE);
-        extensionMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
